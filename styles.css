@@ -74,11 +74,11 @@
     min-height:520px;
 }
 .repeat{background:#e9e9e5;border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:8px}.repeat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.repeat-head h3{margin:0;font-size:15px}.remove{border:0;border-radius:10px;background:var(--black);color:#fff;width:36px;height:36px;font-size:21px}.component-final,.marking-final{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);gap:10px;min-height:620px}.component-left,.marking-left{display:grid;grid-template-rows:auto minmax(180px,1fr);gap:10px}.component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.component-notes,.marking-notes{height:100%;align-self:stretch}.component-notes textarea,.marking-notes textarea{height:100%;min-height:220px}.component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}.media-align{margin-top:15px}.component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
-.component-thumbs .preview-item img{
+/*.component-thumbs .preview-item img{
     width:100%;
     height:180px;
     object-fit:contain;
-}
+}*/
 .component-thumbs .preview-item{
     aspect-ratio:1 / 1;
 }
@@ -90,7 +90,7 @@
 .outerbox-notes textarea{height:100%;min-height:240px}
 .outerbox-media-full{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}
 .outerbox-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
-.outerbox-thumbs .preview-item img{height:110px}
+/*.outerbox-thumbs .preview-item img{height:110px}*/
 .conditional[hidden]{display:none}
 .doc-stats{display:flex;gap:12px;flex-wrap:wrap;padding:8px;background:#e7e7e3;border-radius:12px;margin-bottom:8px}
 .add-doc{width:max-content;margin-bottom:9px}
@@ -177,4 +177,236 @@
 
     max-height:520px;
     overflow-y:auto;
+}
+/* =========================================================
+   GALERIES D'IMAGES ADAPTATIVES
+   1 fichier  = toute la zone
+   Plusieurs  = grille automatiquement dimensionnée
+   ========================================================= */
+
+/*
+ * Toutes les galeries utilisent entièrement
+ * la hauteur et la largeur qui leur sont réservées.
+ */
+.mini-preview{
+    width:100%;
+    height:100%;
+    min-height:0;
+
+    display:grid;
+    gap:6px;
+
+    overflow:hidden;
+    align-items:stretch;
+    align-content:stretch;
+}
+
+/*
+ * 1 fichier :
+ * une seule grande vignette occupant toute la zone.
+ */
+.mini-preview[data-count="1"]{
+    grid-template-columns:1fr;
+    grid-template-rows:minmax(0,1fr);
+}
+
+/*
+ * 2 fichiers :
+ * deux grandes vignettes côte à côte.
+ */
+.mini-preview[data-count="2"]{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:minmax(0,1fr);
+}
+
+/*
+ * 3 fichiers :
+ * trois vignettes sur une ligne.
+ */
+.mini-preview[data-count="3"]{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-rows:minmax(0,1fr);
+}
+
+/*
+ * 4 fichiers :
+ * grille 2 × 2.
+ */
+.mini-preview[data-count="4"]{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+}
+
+/*
+ * 5 et 6 fichiers :
+ * grille de 3 colonnes et 2 lignes.
+ */
+.mini-preview[data-count="5"],
+.mini-preview[data-count="6"]{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+}
+
+/*
+ * 7 et 8 fichiers :
+ * grille de 4 colonnes et 2 lignes.
+ */
+.mini-preview[data-count="7"],
+.mini-preview[data-count="8"]{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+}
+
+/*
+ * 9 fichiers :
+ * grille 3 × 3.
+ */
+.mini-preview[data-count="9"]{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-rows:repeat(3,minmax(0,1fr));
+}
+
+/*
+ * 10, 11 et 12 fichiers :
+ * grille de 4 colonnes et 3 lignes.
+ */
+.mini-preview[data-count="10"],
+.mini-preview[data-count="11"],
+.mini-preview[data-count="12"]{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    grid-template-rows:repeat(3,minmax(0,1fr));
+}
+
+/*
+ * Plus de 12 fichiers :
+ * grille compacte avec défilement interne.
+ */
+.mini-preview:not([data-count="0"]):not([data-count="1"])
+:not([data-count="2"]):not([data-count="3"])
+:not([data-count="4"]):not([data-count="5"])
+:not([data-count="6"]):not([data-count="7"])
+:not([data-count="8"]):not([data-count="9"])
+:not([data-count="10"]):not([data-count="11"])
+:not([data-count="12"]){
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    grid-auto-rows:minmax(130px,1fr);
+    overflow-y:auto;
+}
+
+/*
+ * Chaque vignette occupe entièrement sa cellule.
+ */
+.mini-preview .preview-item{
+    position:relative;
+
+    width:100%;
+    height:100%;
+    min-width:0;
+    min-height:0;
+
+    padding:5px;
+
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+/*
+ * L'image utilise tout l'espace disponible,
+ * mais demeure entièrement visible.
+ */
+.mini-preview .preview-item img{
+    display:block;
+
+    width:100%;
+    height:100%;
+
+    min-width:0;
+    min-height:0;
+
+    object-fit:contain;
+    object-position:center;
+
+    background:#fff;
+    border-radius:7px;
+}
+
+/*
+ * Nom du fichier placé dans une petite ligne en bas.
+ */
+.mini-preview .preview-item small{
+    display:block;
+
+    min-width:0;
+
+    padding-top:3px;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+    font-size:10px;
+    line-height:1.1;
+}
+
+/*
+ * Bouton de suppression toujours accessible.
+ */
+.mini-preview .remove-doc{
+    position:absolute;
+    top:5px;
+    right:5px;
+
+    z-index:2;
+}
+
+/*
+ * Une image unique ne doit pas être limitée
+ * par les anciennes hauteurs des galeries.
+ */
+.mini-preview.is-single .preview-item,
+.mini-preview.is-single .preview-item img{
+    max-width:none;
+    max-height:none;
+}
+
+/*
+ * Aucune galerie ne s'affiche si elle est vide.
+ */
+.mini-preview.is-empty{
+    display:none;
+}
+/* Zone fichiers de 01 Client & Projet */
+#clientPreview{
+    min-height:0;
+    height:100%;
+}
+
+/* Zone images de 03 Produit */
+.product-thumbs{
+    min-height:300px;
+    height:100%;
+}
+
+/* Zone images de 04 Composants */
+.component-thumbs{
+    min-height:0;
+    height:100%;
+}
+
+/* Zone images de 05 Marquages */
+.marking-thumbs{
+    min-height:0;
+    height:100%;
+}
+
+/* Zone images de 06 Contre-boîte */
+.outerbox-thumbs{
+    min-height:0;
+    height:100%;
 }
