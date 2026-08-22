@@ -17,7 +17,7 @@
   grid-row:1;
 }
 .panel[data-step="client"] .client-file-align{
-  margin-top:19px;
+  margin-top:48px;
   height:var(--control-h);
   min-height:var(--control-h);
   align-self:start;
@@ -58,7 +58,7 @@
     grid-column:1 / -1;
   }
   .panel[data-step="client"] .client-file-align{margin-top:0}
-  .panel[data-step="client"] .brief-client textarea{min-height:220px}
+  .panel[data-step="client"] .brief-client textarea{height:100%;min-height:380px;
 }
 @media(max-width:760px){
   .panel[data-step="client"] .client-layout{grid-template-columns:1fr}
