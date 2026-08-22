@@ -89,10 +89,10 @@
     height:180px;
     object-fit:contain;
 }*/
-.component-thumbs .preview-item{
+/*.component-thumbs .preview-item{
     aspect-ratio:1 / 1;
 }
-.marking-thumbs .preview-item img{height:100px}
+/*.marking-thumbs .preview-item img{height:100px}*/
 .outerbox-final{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);gap:10px;height:100%}
 .outerbox-left{display:grid;grid-template-rows:auto minmax(180px,1fr);gap:4px}
 .outerbox-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -122,15 +122,51 @@
 }
 
 .panel[data-step="client"] .client-layout{
-    height:calc(100% - 30px);
-    min-height:0;
     display:grid;
-    grid-template-columns:22% 22% minmax(0,56%);
-    grid-template-rows:auto minmax(0,1fr);
+
+    grid-template-columns:
+        22%
+        22%
+        minmax(0,56%);
+
+    grid-template-areas:
+        "column1 column2 files"
+        "brief   brief   files";
+
     gap:9px;
+
+    height:100%;
+    min-height:0;
+}
+
+.panel[data-step="client"] .form-col:nth-child(1){
+    grid-area:column1;
+}
+
+.panel[data-step="client"] .form-col:nth-child(2){
+    grid-area:column2;
 }
 
 .panel[data-step="client"] .files-col{
+    grid-area:files;
+
+    display:grid;
+    grid-template-rows:
+        auto
+        minmax(0,1fr);
+
+    min-width:0;
+    min-height:0;
+}
+
+.panel[data-step="client"] .brief-client{
+    grid-area:brief;
+
+    min-width:0;
+    min-height:0;
+}
+
+/*.panel[data-step="client"] .files-col{
     min-width:0;
 }
 
@@ -139,8 +175,11 @@
 }
 
 .panel[data-step="client"] .brief-client{
-    grid-column:1 / 3;
-}
+    grid-area:brief;
+
+    min-width:0;
+    min-height:0;
+}*/
 
 @media(max-width:1050px){
     .panel[data-step="client"] .client-layout{
@@ -419,4 +458,164 @@
 .outerbox-thumbs{
     min-height:0;
     height:100%;
+}
+/* ==========================================================
+   GALERIES ADAPTATIVES
+   ========================================================== */
+
+.mini-preview{
+    --gallery-columns:3;
+    --gallery-rows:2;
+
+    width:100%;
+    height:100%;
+    min-width:0;
+    min-height:0;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            var(--gallery-columns),
+            minmax(0,1fr)
+        );
+
+    grid-template-rows:
+        repeat(
+            var(--gallery-rows),
+            minmax(0,1fr)
+        );
+
+    gap:6px;
+
+    align-items:stretch;
+    align-content:stretch;
+
+    overflow:hidden;
+}
+
+/* Aucune image */
+
+.mini-preview.gallery-empty{
+    display:none;
+}
+
+/* Plus de 12 images */
+
+.mini-preview.gallery-overflow{
+    grid-auto-rows:minmax(120px,1fr);
+    overflow-y:auto;
+}
+
+/* Carte d'une image */
+
+.mini-preview .preview-item{
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    min-width:0;
+    min-height:0;
+
+    padding:5px;
+
+    display:grid;
+
+    grid-template-rows:
+        minmax(0,1fr)
+        auto;
+
+    background:#fff;
+
+    border:1px solid var(--line);
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+/* Image entièrement visible et aussi grande que possible */
+
+.mini-preview .preview-item img{
+    display:block;
+
+    width:100%;
+    height:100%;
+
+    min-width:0;
+    min-height:0;
+
+    object-fit:contain;
+    object-position:center;
+
+    background:#fff;
+
+    border-radius:7px;
+}
+
+/* Nom du fichier */
+
+.mini-preview .preview-item small{
+    display:block;
+
+    min-width:0;
+
+    padding-top:3px;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+    font-size:10px;
+    line-height:1.1;
+}
+
+/* Bouton de suppression */
+
+.mini-preview .remove-doc{
+    position:absolute;
+
+    top:5px;
+    right:5px;
+
+    z-index:2;
+}
+
+/* ==========================================================
+   HAUTEUR DISPONIBLE PAR GALERIE
+   ========================================================== */
+
+/* 01 Client & Projet */
+
+#clientPreview{
+    height:100%;
+    min-height:0;
+}
+
+/* 03 Produit */
+
+.product-thumbs{
+    height:100%;
+    min-height:0;
+}
+
+/* 04 Composants */
+
+.component-thumbs{
+    height:100%;
+    min-height:0;
+}
+
+/* 05 Marquages */
+
+.marking-thumbs{
+    height:100%;
+    min-height:0;
+}
+
+/* 06 Contre-boîte */
+
+.outerbox-thumbs{
+    height:100%;
+    min-height:0;
 }
