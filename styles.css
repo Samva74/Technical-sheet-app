@@ -77,15 +77,15 @@
 
 /* ===== CARTE 02 QUANTITÉS ===== */
 
-.panel[data-step="quantities"].*ctive{
-    display:block !importan*;
+.panel[data-step="quantities"].active{
+    display:block !important;
 }
 
 .panel[data-step="quantities"] .quantity-notes{
-    margin-top:8*x;
+    margin-top:20px;
 }
 
 .panel[data-step="quantities"] .quantity-notes textarea{
-    mi*-height:600px;
-    resize:none;
+    min-height:120px;
+    resize:vertical;
 }
