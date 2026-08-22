@@ -1,3 +1,2 @@
-# Technical Sheet App V9
-
-Reconstruction complète à partir de la V8 fournie. Comprend les maquettes validées 01 à 08 : Notes Quantités, Produit enrichi, Composants médias/notes, Marquages avec Notes pleine largeur, Contre-boîte avec deux colonnes de paramètres + Notes sous ces deux colonnes et galerie pleine hauteur, Documents groupés par catégorie, traductions FR/EN/PT, PDF et ZIP.
+# Technical Sheet App V10
+Version complète reconstruite à partir des sources V9 avec les corrections 01 à 06 demandées.

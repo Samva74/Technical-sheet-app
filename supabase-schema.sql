@@ -1,3 +1,2 @@
 create extension if not exists pgcrypto;
-create table technical_sheets(id uuid primary key default gen_random_uuid(),reference_source text unique not null,data jsonb not null default '{}'::jsonb,created_by_user_id uuid,created_by_email text,updated_by_user_id uuid,updated_by_email text,created_at timestamptz default now(),updated_at timestamptz default now());
-create table technical_sheet_documents(id uuid primary key default gen_random_uuid(),technical_sheet_id uuid references technical_sheets(id) on delete cascade,context text,context_id uuid,storage_path text,file_name text,mime_type text,file_size bigint,created_by_user_id uuid,created_by_email text,created_at timestamptz default now());
+create table if not exists technical_sheets(id uuid primary key default gen_random_uuid(),reference_source text unique not null,data jsonb not null default '{}'::jsonb,created_at timestamptz default now(),updated_at timestamptz default now());
