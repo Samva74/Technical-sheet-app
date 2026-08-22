@@ -116,3 +116,40 @@
     min-height:0;
     resize:none;
 }
+/* =====================================================
+   CARTE 02 QUANTITÉS - MAQUETTE VALIDÉE
+   ===================================================== */
+
+.panel[data-step="quantities"]{
+    display:flex !important;
+    flex-direction:column;
+}
+
+.panel[data-step="quantities"] .quantity-grid{
+    flex:0 0 auto;
+}
+
+.panel[data-step="quantities"] .price-vent{
+    flex:0 0 auto;
+}
+
+.panel[data-step="quantities"] .quantity-notes{
+    margin-top:8px !important;
+
+    flex:1;
+
+    display:flex !important;
+    flex-direction:column;
+
+    gap:2px;
+}
+
+.panel[data-step="quantities"] .quantity-notes textarea{
+    flex:1;
+
+    width:100%;
+
+    min-height:0 !important;
+
+    resize:none;
+}
