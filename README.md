@@ -1,9 +1,16 @@
-# Technical Sheet App v2 - CNC Style
+# Technical Sheet App V3
 
-Version harmonisée avec CNC, Hot Stamping et Laser : fond gris, cartes claires, bordures fines, boutons noirs, header Hub, FR/EN/PT et responsive mobile.
+V3 harmonisée avec CNC, Hot Stamping et Laser.
 
-## Déploiement
-Déposer tous les fichiers à la racine d’un dépôt GitHub puis importer le dépôt dans Vercel avec Framework Preset `Other`.
+## Nouveautés
+- Navigation directe entre toutes les sections de la fiche
+- Bibliothèques centralisées administrables dans `libraries.html`
+- Matières, finitions, textures, couleurs, marquages et composants
+- Composants multiples et plusieurs marquages par composant
+- Sauvegarde automatique locale et reprise de brouillon
+- Import/export JSON, CSV Excel et PDF
+- Responsive ordinateur, tablette et mobile
+- Schéma Supabase avec champs de traçabilité
 
-## Fonctionnement actuel
-Sauvegarde automatique locale, import/export JSON, CSV Excel, PDF par impression, composants et marquages multiples. Le schéma Supabase est fourni pour la prochaine connexion multi-utilisateur.
+## Déploiement GitHub / Vercel
+Déposer tous les fichiers à la racine du dépôt GitHub, puis importer le dépôt dans Vercel avec le preset `Other`.
