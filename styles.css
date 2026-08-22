@@ -166,7 +166,7 @@
     min-height:0;
 }
 
-/*.panel[data-step="client"] .files-col{
+.panel[data-step="client"] .files-col{
     min-width:0;
 }
 
@@ -179,7 +179,7 @@
 
     min-width:0;
     min-height:0;
-}*/
+}
 
 @media(max-width:1050px){
     .panel[data-step="client"] .client-layout{
