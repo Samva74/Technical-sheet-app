@@ -1,3 +1,3 @@
-# Technical Sheet App V8
+# Technical Sheet App V9
 
-Base V6 complète préservée séparément. V8 inclut : compactage vertical sans réduction de largeur, traduction réversible FR/EN/PT, nouvelles mises en page Client/Produit/Composants/Marquages/Contre-boîte, images composants, marquage initial automatique et filtre Documents Composants.
+Reconstruction complète à partir de la V8 fournie. Comprend les maquettes validées 01 à 08 : Notes Quantités, Produit enrichi, Composants médias/notes, Marquages avec Notes pleine largeur, Contre-boîte avec deux colonnes de paramètres + Notes sous ces deux colonnes et galerie pleine hauteur, Documents groupés par catégorie, traductions FR/EN/PT, PDF et ZIP.
