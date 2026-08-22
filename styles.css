@@ -86,6 +86,6 @@
 }
 
 .panel[data-step="quantities"] .quantity-notes textarea{
-    min-height:120px;
+    min-height:350px;
     resize:vertical;
 }
