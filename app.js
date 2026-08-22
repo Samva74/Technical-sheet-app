@@ -106,6 +106,7 @@ preseries:'Présérie',
 series:'Série',
 seriesPriceBreakdown:'Ventilation prix Série',
 quantity:'Quantité',
+    seriesPriceBreakdown:'Ventilation prix Série',
 price:'Prix'},
   
   en:{
@@ -116,6 +117,7 @@ preseries:'Pre-series',
 series:'Series',
 seriesPriceBreakdown:'Series price breakdown',
 quantity:'Quantity',
+    seriesPriceBreakdown:'Series price breakdown',
 price:'Price'},
   
   pt:{
@@ -126,6 +128,7 @@ preseries:'Pré-série',
 series:'Série',
 seriesPriceBreakdown:'Distribuição de preços da série',
 quantity:'Quantidade',
+    seriesPriceBreakdown:'Distribuição de preços da série',
 price:'Preço'}};
       
 let currentLang=localStorage.getItem('ftLang')||'fr';function tr(k){return DICT[currentLang]?.[k]||DICT.fr[k]||k}function trText(v){return v}
