@@ -159,7 +159,7 @@
     display:flex;
     flex-direction:column;
 
-    height:780px;
+    height:785px;
 }
 
 .panel[data-step="client"] .client-file-align{
