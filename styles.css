@@ -58,12 +58,14 @@
     grid-column:1/3;
     display:flex;
     flex-direction:column;
-    height:100%;
+
+    height:auto;
 }
 
 .brief-client textarea{
-    flex:1;
-    min-height:340px;
+    min-height:300px;
+    max-height:300px;
+
     resize:none;
 }
 .quantity-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.quantity-card,.vent-item{background:#e7e7e3;border:1px solid var(--line);border-radius:13px;padding:10px}.quantity-card{display:grid;gap:8px}.quantity-card h3{margin:0}.unit-input{position:relative}.unit-input input{padding-right:58px}.unit-input span{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:800}.section-subtitle{margin:17px 0 9px}.price-vent{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.vent-item{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center}.vent-item .price{grid-column:1/-1}
@@ -113,7 +115,8 @@
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
 .pager{grid-row:3;display:flex;justify-content:space-between;margin-top:7px}
 .pager button{min-width:100px}
-.file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}.document-grid,.document-group-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){header{display:block}.head-actions{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.user{display:none}.layout{display:block}.side{min-height:auto;margin-bottom:10px}.ref{display:none}nav{display:flex;overflow-x:auto}nav button{white-space:nowrap}.form-three,.product-intro,.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr}.brief-client{grid-column:auto}.field-spacer{display:none}.quantity-grid,.price-vent{grid-template-columns:1fr}.document-grid,.document-group-grid{grid-template-columns:repeat(2,1fr)}.panel{min-height:auto}.component-final,.marking-final{min-height:0}}@media print{header,.side,.pager,.progress,.title-row button,.remove,.remove-doc,.file-button,.doc-filters{display:none!important}.layout{display:block}.panel{display:block!important;min-height:0;box-shadow:none;margin-bottom:16px}input,select,textarea{border:0;padding:2px;background:transparent}body{background:#fff}}
+.file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}.document-grid,.document-group-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){header{display:block}.head-actions{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.user{display:none}.layout{display:block}.side{min-height:auto;margin-bottom:10px}.ref{display:none}nav{display:flex;overflow-x:auto}nav button{white-space:nowrap}.form-three,.product-intro,.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr}
+.brief-client{grid-column:auto}.field-spacer{display:none}.quantity-grid,.price-vent{grid-template-columns:1fr}.document-grid,.document-group-grid{grid-template-columns:repeat(2,1fr)}.panel{min-height:auto}.component-final,.marking-final{min-height:0}}@media print{header,.side,.pager,.progress,.title-row button,.remove,.remove-doc,.file-button,.doc-filters{display:none!important}.layout{display:block}.panel{display:block!important;min-height:0;box-shadow:none;margin-bottom:16px}input,select,textarea{border:0;padding:2px;background:transparent}body{background:#fff}}
 
 /* ===== CARTE 01 CLIENT ===== */
 
