@@ -155,10 +155,8 @@
 
 .panel[data-step="client"] .files-col{
     min-width:0;
-
     display:flex;
     flex-direction:column;
-
     height:785px;
 }
 
