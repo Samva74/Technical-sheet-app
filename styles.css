@@ -63,8 +63,8 @@
 }
 
 .brief-client textarea{
-    min-height:290px;
-    max-height:290px;
+    min-height:380px;
+    max-height:380px;
 
     resize:none;
 }
