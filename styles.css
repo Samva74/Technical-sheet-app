@@ -193,12 +193,6 @@
     }
 }
 
-.panel[data-step="client"] .files-col{
-    display:flex;
-    flex-direction:column;
-
-    height:600px;
-}
 
 #clientPreview{
     flex:1;
