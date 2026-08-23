@@ -31,15 +31,15 @@
 
     overflow:hidden;
 }
+
 .preview-item img,
 .document-card img{
     width:100%;
     height:100%;
 
     object-fit:contain;
-
-    background:#fff;
 }
+
 .preview-item small,
 .document-card b,
 .document-card small{
@@ -155,6 +155,11 @@
 
 .panel[data-step="client"] .files-col{
     min-width:0;
+
+    display:flex;
+    flex-direction:column;
+
+    height:100%;
 }
 
 .panel[data-step="client"] .client-file-align{
@@ -223,12 +228,18 @@
 }
 
 #clientPreview{
+    flex:1;
+
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(120px,1fr));
+
+    grid-auto-rows:minmax(120px,1fr);
+
     gap:8px;
 
-    max-height:520px;
-    overflow-y:auto;
+    height:100%;
 }
 /* =========================================================
    GALERIES D'IMAGES ADAPTATIVES
