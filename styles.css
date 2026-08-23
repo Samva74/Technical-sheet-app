@@ -4,13 +4,13 @@
     padding:12px;
     grid-row:2;
 
-    height:calc(100vh - 142px);
+    height:calc(100vh - 144px);
     overflow:hidden;
 }
 
 .panel.active{
     display:block;
-    height:calc(100vh - 142px);
+    height:calc(100vh - 144px);
 }
 .panel h2{font-size:18px;margin:0 0 10px}
 .title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
