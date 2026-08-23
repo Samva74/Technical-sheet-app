@@ -58,8 +58,6 @@
     grid-column:1/3;
     display:flex;
     flex-direction:column;
-
-    height:auto;
 }
 
 .brief-client textarea{
