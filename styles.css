@@ -61,10 +61,8 @@
 }
 
 .brief-client textarea{
-    min-height:380px;
-    max-height:380px;
-
-    resize:none;
+    min-height:410px;
+    max-height:410px;
 }
 .quantity-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.quantity-card,.vent-item{background:#e7e7e3;border:1px solid var(--line);border-radius:13px;padding:10px}.quantity-card{display:grid;gap:8px}.quantity-card h3{margin:0}.unit-input{position:relative}.unit-input input{padding-right:58px}.unit-input span{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:800}.section-subtitle{margin:17px 0 9px}.price-vent{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.vent-item{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center}.vent-item .price{grid-column:1/-1}
 
