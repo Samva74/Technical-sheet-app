@@ -122,12 +122,31 @@
 }
 
 .panel[data-step="client"] .client-layout{
-    height:auto;
-    min-height:0;
     display:grid;
+    height:100%;
+
     grid-template-columns:22% 22% minmax(0,56%);
-    grid-template-rows:auto auto;
+    grid-template-areas:
+        "col1 col2 files"
+        "brief brief files";
+
     gap:9px;
+}
+
+.panel[data-step="client"] .form-col:nth-child(1){
+    grid-area:col1;
+}
+
+.panel[data-step="client"] .form-col:nth-child(2){
+    grid-area:col2;
+}
+
+.panel[data-step="client"] .files-col{
+    grid-area:files;
+}
+
+.panel[data-step="client"] .brief-client{
+    grid-area:brief;
 }
 
 .files-col{
