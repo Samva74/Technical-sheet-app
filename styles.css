@@ -122,7 +122,7 @@
 
 .panel[data-step="client"] .client-layout{
     display:grid;
-    height:100%;
+    height:calc(100% - 30px);
 
     grid-template-columns:22% 22% minmax(0,56%);
     grid-template-areas:
