@@ -22,22 +22,21 @@
 .preview-item,
 .document-card{
     position:relative;
+
+    aspect-ratio:1/1;
+
     background:#fff;
     border:1px solid var(--line);
     border-radius:10px;
-    padding:5px;
+
     overflow:hidden;
-    aspect-ratio:1 / 1;
 }
 .preview-item img,
 .document-card img{
     width:100%;
-    aspect-ratio:1 / 1;
-    height:auto;
+    height:100%;
 
     object-fit:contain;
-
-    border-radius:7px;
 
     background:#fff;
 }
@@ -187,6 +186,25 @@
     .panel[data-step="client"] .files-col{
         grid-column:auto;
     }
+}
+
+.panel[data-step="client"] .files-col{
+    display:flex;
+    flex-direction:column;
+
+    height:600px;
+}
+
+#clientPreview{
+    flex:1;
+
+    overflow-y:auto;
+
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(100px,1fr));
+
+    gap:8px;
 }
 
 /* ===== CARTE 02 QUANTITÉS ===== */
