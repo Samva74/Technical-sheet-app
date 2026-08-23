@@ -81,7 +81,10 @@
     height:520px;
     min-height:520px;
 }
-.repeat{background:#e9e9e5;border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:8px}.repeat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.repeat-head h3{margin:0;font-size:15px}.remove{border:0;border-radius:10px;background:var(--black);color:#fff;width:36px;height:36px;font-size:21px}.component-final,.marking-final{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);gap:10px;min-height:620px}.component-left,.marking-left{display:grid;grid-template-rows:auto minmax(180px,1fr);gap:10px}.component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.component-notes,.marking-notes{height:100%;align-self:stretch}.component-notes textarea,.marking-notes textarea{height:100%;min-height:220px}.component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}.media-align{margin-top:15px}.component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
+.repeat{background:#e9e9e5;border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:8px}.repeat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.repeat-head h3{margin:0;font-size:15px}.remove{border:0;border-radius:10px;background:var(--black);color:#fff;width:36px;height:36px;font-size:21px}
+.component-final,.marking-final{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);gap:10px;min-height:708px}
+.component-left,.marking-left{display:grid;grid-template-rows:auto minmax(180px,1fr);gap:10px}.component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.component-notes,.marking-notes{height:100%;align-self:stretch}
+.component-notes textarea,.marking-notes textarea{height:100%;min-height:310px}.component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}.media-align{margin-top:15px}.component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
 /*.component-thumbs .preview-item img{
     width:100%;
     height:180px;
