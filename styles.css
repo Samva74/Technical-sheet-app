@@ -130,7 +130,7 @@
 /*.outerbox-thumbs .preview-item img{height:110px}*/
 .conditional[hidden]{display:none}
 .doc-stats{display:flex;gap:12px;flex-wrap:wrap;padding:8px;background:#e7e7e3;border-radius:12px;margin-bottom:8px}
-.add-doc{width:max-content;margin-bottom:9px}
+.add-doc{margin-bottom:35px}
 .doc-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
 .doc-filters button{border:1px solid var(--line);border-radius:999px;background:#f8f8f6;padding:6px 12px;font-weight:800}
 .doc-filters button.active{background:var(--black);color:#fff}
