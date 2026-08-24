@@ -78,19 +78,10 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     gap:6px
     margin-top:30px;
 }
-.preview-item{
-    position:relative;
-    aspect-ratio:1/1;
-    width:100%;
-    min-width:0;
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:10px;
-    overflow:hidden;
-}
-
+.preview-item,
 .document-card{
     position:relative;
+    aspect-ratio:1/1;
     width:100%;
     min-width:0;
     background:#fff;
@@ -200,10 +191,31 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     overflow-x:hidden;
 }
 
+.document-grid.filtered-view{
+    grid-template-columns:1fr;
+}
+
+.document-grid.filtered-view .document-group-grid{
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+    gap:7px;
+}
+
+/* Une catégorie masquée ne prend aucune place */
+.document-group{
+min-width:0;
+}
+.document-group h3{
+margin:0 0 7px;
+}
+.document-group-grid{
+grid-template-columns:repeat(auto-fit,minmax(45px,1fr));
+gap:4px;
+}
+
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
 .pager{grid-row:3;display:flex;justify-content:space-between;margin-top:7px}
 .pager button{min-width:100px}
-.file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}
+.file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}.document-grid,.document-group-grid{grid-template-columns:repeat(3,1fr)}}
 
 @media(max-width:760px){
 
@@ -289,7 +301,9 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     }
 
     .document-grid,
-
+    .document-group-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
     input,
     select,
@@ -672,96 +686,4 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     min-height:0;
     height:720px;
     margin-top: 20px;
-}
-/* =========================================================
-   CARTE 07 : ZONE DOCUMENTS SANS DÉFILEMENT
-   ========================================================= */
-
-.panel[data-step="documents"] .document-grid{
-    /* Six groupes : Client, Produit, Composants,
-       Marquages, Contre-boîte et Documents */
-    grid-template-columns:repeat(6,minmax(0,1fr));
-
-    height:calc(100vh - 365px);
-    max-height:none;
-    min-height:0;
-
-    overflow:hidden;
-    align-items:stretch;
-}
-
-/* Chaque groupe remplit toute la hauteur disponible */
-.panel[data-step="documents"] .document-group{
-    display:grid;
-    grid-template-rows:auto minmax(0,1fr);
-
-    min-width:0;
-    min-height:0;
-    height:100%;
-
-    margin:0;
-    overflow:hidden;
-}
-
-/* La grille intérieure sera calculée par app.js */
-.panel[data-step="documents"] .document-group-grid{
-    display:grid;
-
-    width:100%;
-    height:100%;
-
-    min-width:0;
-    min-height:0;
-
-    gap:4px;
-    overflow:hidden;
-}
-
-/* Les vignettes ne sont plus obligatoirement carrées */
-.panel[data-step="documents"] .document-card{
-    position:relative;
-
-    width:100%;
-    height:100%;
-
-    min-width:0;
-    min-height:0;
-
-    aspect-ratio:auto;
-
-    display:grid;
-    grid-template-rows:minmax(0,1fr) auto;
-
-    padding:3px;
-    overflow:hidden;
-}
-
-/* L’image reste entièrement visible */
-.panel[data-step="documents"] .document-card img{
-    display:block;
-
-    width:100%;
-    height:100%;
-
-    min-width:0;
-    min-height:0;
-
-    object-fit:contain;
-    object-position:center;
-}
-
-/* Texte plus compact */
-.panel[data-step="documents"] .document-card b,
-.panel[data-step="documents"] .document-card small{
-    margin-top:2px;
-    font-size:8px;
-    line-height:1;
-}
-
-/* Une catégorie filtrée utilise toute la largeur */
-.panel[data-step="documents"] 
-
-/* Les catégories masquées ne prennent aucune place */
-.panel[data-step="documents"] .document-group[hidden]{
-    display:none !important;
 }
