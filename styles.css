@@ -136,8 +136,12 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     align-content:start;
 }
 .product-description-label{
-    height:100%
+    height:100%;
     margin-top:15px;
+}
+.product-description-label span{
+    position:relative;
+    top:8px;
 }
 .product-description{
     height:520px;
