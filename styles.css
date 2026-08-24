@@ -82,11 +82,9 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 .document-card{
     position:relative;
     aspect-ratio:1/1;
-
     background:#fff;
     border:1px solid var(--line);
     border-radius:10px;
-
     overflow:hidden;
 }
 .document-group-grid .document-card{
@@ -182,13 +180,17 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 .doc-filters button{border:1px solid var(--line);border-radius:999px;background:#f8f8f6;padding:6px 12px;font-weight:800}
 .doc-filters button.active{background:var(--black);color:#fff}
 .document-grid{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:7px;
-      min-height:620px;
+    max-height:500px;
 }
-.document-group{margin-bottom:16px}.document-group h3{margin:0 0 7px}
-.document-group-grid{display:inline-grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.document-group{margin-bottom:16px}
+.document-group h3{margin:0 0 7px}
+.document-group-grid{
+
+    /* nombre de colonnes automatique */
+    grid-template-columns:repeat(auto-fit,minmax(45px,1fr));
+    gap:4px;
+}
+
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
 .pager{grid-row:3;display:flex;justify-content:space-between;margin-top:7px}
 .pager button{min-width:100px}
