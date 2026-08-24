@@ -37,8 +37,8 @@ function exportPDF(){
      * Laisse le navigateur afficher les images et recalculer
      * les dimensions avant d'ouvrir l'impression.
      */
-    requestAnimationFrame(() => *
-        requestAnimationFrame(() *> {
+    requestAnimationFrame(() => 
+        requestAnimationFrame(() > {
             window.print();
       });
     });
