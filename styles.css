@@ -152,7 +152,7 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 .component-left,.marking-left{display:grid;grid-template-rows:auto auto;gap:10px}
 .component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;height:270px}
 .component-notes,.marking-notes{height:auto;align-self:end}
-.component-notes textarea,.marking-notes textarea{height:330px}
+.component-notes textarea,.marking-notes textarea{height:265px}
 .component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}
 .media-align{margin-top:-2px}
 .component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
