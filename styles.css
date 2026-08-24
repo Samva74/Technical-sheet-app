@@ -179,7 +179,12 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 .doc-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
 .doc-filters button{border:1px solid var(--line);border-radius:999px;background:#f8f8f6;padding:6px 12px;font-weight:800}
 .doc-filters button.active{background:var(--black);color:#fff}
-.document-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.document-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:7px
+      min-height:620px;
+}
 .document-group{margin-bottom:16px}.document-group h3{margin:0 0 7px}
 .document-group-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
@@ -627,12 +632,14 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 #clientPreview{
     min-height:0;
     height:100%;
+    margin-top: 22px;
 }
 
 /* Zone images de 03 Produit */
 .product-thumbs{
     min-height:300px;
     height:500px;
+    margin-top: 30px;
 }
 
 /* Zone images de 04 Composants */
@@ -644,11 +651,13 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 /* Zone images de 05 Marquages */
 .marking-thumbs{
     min-height:0;
-    height:100%;
+    height:640px;
+    margin-top: 22px;
 }
 
 /* Zone images de 06 Contre-boîte */
 .outerbox-thumbs{
     min-height:0;
-    height:100%;
+    height:720px;
+    margin-top: 20px;
 }
