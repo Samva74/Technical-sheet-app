@@ -108,7 +108,8 @@
 .component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;height:270px}
 .component-notes,.marking-notes{height:auto;align-self:end}
 .component-notes textarea,.marking-notes textarea{height:330px}
-.component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}.media-align{margin-top:15px}
+.component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}
+.media-align{margin-top:-2px}
 .component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
 /*.component-thumbs .preview-item img{
     width:100%;
@@ -298,7 +299,7 @@
 }
 
 .panel[data-step="client"] .client-file-align{
-    margin-top:20px;
+    margin-top:-2px;
 }
 
 .panel[data-step="client"] .brief-client{
