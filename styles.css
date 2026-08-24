@@ -200,30 +200,10 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     overflow-x:hidden;
 }
 
-.document-grid.filtered-view{
-    grid-template-columns:1fr;
-}
-
-
-/* Une catégorie masquée ne prend aucune place */
-.document-group{
-    min-width:0;
-}
-
-.document-group h3{
-    margin:0 0 7px;
-}
-
-.document-group-grid{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:4px;
-}
-
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
 .pager{grid-row:3;display:flex;justify-content:space-between;margin-top:7px}
 .pager button{min-width:100px}
-.file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}.document-grid,.document-group-grid{grid-template-columns:repeat(3,1fr)}}
+.file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}
 
 @media(max-width:760px){
 
@@ -309,9 +289,7 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     }
 
     .document-grid,
-    .document-group-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+
 
     input,
     select,
@@ -781,9 +759,7 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 }
 
 /* Une catégorie filtrée utilise toute la largeur */
-.panel[data-step="documents"] .document-grid.filtered-view{
-    grid-template-columns:minmax(0,1fr);
-}
+.panel[data-step="documents"] 
 
 /* Les catégories masquées ne prennent aucune place */
 .panel[data-step="documents"] .document-group[hidden]{
