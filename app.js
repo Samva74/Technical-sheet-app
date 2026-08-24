@@ -134,5 +134,37 @@ price:'Preço'}};
 let currentLang=localStorage.getItem('ftLang')||'fr';function tr(k){return DICT[currentLang]?.[k]||DICT.fr[k]||k}function trText(v){return v}
 function setLanguage(lang){currentLang=lang;localStorage.setItem('ftLang',lang);document.documentElement.lang=lang;renderNav();renderQuantities();renderComponents();renderMarkings();renderDocuments();applyTranslations()}
 function renderNav(){nav.innerHTML=steps.map((s,i)=>`<button data-i="${i}" class="${i===cur?'active':''}">${String(i+1).padStart(2,'0')} ${tr(s[0]==='client'?'clientProject':s[0])}</button>`).join('')}
+function applyDocumentFilter(filter){
+    const documentList = document.getElementById("documentList");
+
+    if(!documentList) return;
+
+    const showAll = filter === "all";
+
+    documentList.classList.toggle("filtered-view", !showAll);
+
+    documentList
+        .querySelectorAll(".document-group")
+        .forEach(group => {
+            const category = group.dataset.category;
+
+            group.hidden = !showAll && category !== filter;
+        });
+
+    document
+        .querySelectorAll(".doc-filters button")
+        .forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.filter === filter
+            );
+        });
+}
+document.querySelectorAll(".doc-filters button").forEach(button => {
+    button.addEventListener("click", () => {
+        applyDocumentFilter(button.dataset.filter);
+    });
+});
+
 function applyTranslations(){all('.lang').forEach(x=>x.classList.toggle('active',x.dataset.lang===currentLang));all('[data-i18n]').forEach(x=>x.textContent=tr(x.dataset.i18n));newBtn.textContent='＋ '+tr('newSheet');document.querySelector('.ref small').textContent=tr('reference');if(!validRef())refText.textContent=tr('waiting');requiredMsg.textContent=tr('required');saveBtn.textContent='💾 '+tr('save');pdfBtn.textContent='📄 '+tr('savePdf');zipBtn.textContent='📦 '+tr('saveZip');prev.textContent=tr('previous');next.textContent=tr('next');document.querySelectorAll('.doc-filters button').forEach(b=>{const map={all:'all',client:'clientProject',product:'product',component:'components',marking:'markings',outerbox:'outerbox',documents:'documents'};b.textContent=tr(map[b.dataset.filter])})}
 init();applyTranslations();
