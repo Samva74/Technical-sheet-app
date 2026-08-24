@@ -33,16 +33,16 @@ function exportPDF(){
 
     document.body.classList.add('printing-technical-sheet');
 
-    /*
-     * Laisse le navigateur afficher les images et recalculer
-     * les dimensions avant d'ouvrir l'impression.
-     */
-    requestAnimationFrame(() => 
-        requestAnimationFrame(() > {
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
             window.print();
-      });
+        });
     });
 }
+
+window.addEventListener('afterprint', () => {
+    document.body.classList.remove('printing-technical-sheet');
+});
 
 window.addEventListener('afterprint', () => {
    document.body.classList.remove('pr*nting-technical-sheet');
