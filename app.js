@@ -40,12 +40,12 @@ function exportPDF(){
     requestAnimationFrame(() => *
         requestAnimationFrame(() *> {
             window.print();
-  *     });
+      });
     });
 }
 
-window.addEven*Listener('afterprint', () => {
-   *document.body.classList.remove('pr*nting-technical-sheet');
+window.addEventListener('afterprint', () => {
+   document.body.classList.remove('pr*nting-technical-sheet');
 });
 function b64Bytes(dataUrl){let b=atob(dataUrl.split(',')[1]||''),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}function crc32(u){let c=-1;for(let n of u){c^=n;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xEDB88320:0)}return(c^-1)>>>0}function dosTime(d=new Date()){return((d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1))&65535}function dosDate(d=new Date()){return(((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate())&65535}function makeZip(files){let locals=[],centrals=[],offset=0;for(const f of files){let name=textBytes(f.name),data=f.data,crc=crc32(data),h=new Uint8Array(30+name.length),v=new DataView(h.buffer);v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint16(10,dosTime(),true);v.setUint16(12,dosDate(),true);v.setUint32(14,crc,true);v.setUint32(18,data.length,true);v.setUint32(22,data.length,true);v.setUint16(26,name.length,true);h.set(name,30);locals.push(h,data);let c=new Uint8Array(46+name.length),cv=new DataView(c.buffer);cv.setUint32(0,0x02014b50,true);cv.setUint16(4,20,true);cv.setUint16(6,20,true);cv.setUint16(12,dosTime(),true);cv.setUint16(14,dosDate(),true);cv.setUint32(16,crc,true);cv.setUint32(20,data.length,true);cv.setUint32(24,data.length,true);cv.setUint16(28,name.length,true);cv.setUint32(42,offset,true);c.set(name,46);centrals.push(c);offset+=h.length+data.length}let centralSize=centrals.reduce((a,x)=>a+x.length,0),end=new Uint8Array(22),e=new DataView(end.buffer);e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,centralSize,true);e.setUint32(16,offset,true);let total=locals.reduce((a,x)=>a+x.length,0)+centralSize+22,out=new Uint8Array(total),p=0;[...locals,...centrals,end].forEach(x=>{out.set(x,p);p+=x.length});return out}
 function exportZIP(){if(!validRef())return;let files=[{name:safeName()+'.pdf',data:simplePDF(pdfLines())}];d.documents.forEach(doc=>files.push({name:(doc.type.startsWith('image/')?'Photos/':'Documents/')+doc.name,data:b64Bytes(doc.data)}));download(makeZip(files),safeName()+'.zip','application/zip')}
