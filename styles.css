@@ -858,3 +858,50 @@ gap:4px;
     height:720px;
     margin-top: 20px;
 }
+/* =========================================================
+   EXPORT PDF VISUEL COMPLET
+   ========================================================= */
+
+body.pdf-exporting{
+    overflow:visible !important;
+}
+
+body.pdf-exporting .panel{
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow:visible !important;
+}
+
+body.pdf-exporting .panel.active{
+    display:block !important;
+}
+
+body.pdf-exporting .file-button,
+body.pdf-exporting .remove,
+body.pdf-exporting .remove-doc,
+body.pdf-exporting .title-row button{
+    visibility:hidden !important;
+}
+
+body.pdf-exporting input,
+body.pdf-exporting select,
+body.pdf-exporting textarea{
+    opacity:1 !important;
+    color:#111 !important;
+    background:#fff !important;
+}
+
+body.pdf-exporting .component-final,
+body.pdf-exporting .marking-final{
+    height:708px !important;
+}
+
+body.pdf-exporting .repeat{
+    break-inside:avoid;
+}
+
+body.pdf-exporting .preview-item img,
+body.pdf-exporting .document-card img{
+    object-fit:contain !important;
+}
