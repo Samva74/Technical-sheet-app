@@ -82,15 +82,14 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 .document-card{
     position:relative;
     aspect-ratio:1/1;
+    width:100%;
+    min-width:0;
     background:#fff;
     border:1px solid var(--line);
     border-radius:10px;
     overflow:hidden;
 }
-.document-group-grid .document-card{
-    width:80px;
-    height:80px;
-}
+
 .preview-item img,
 .document-card img{
     width:100%;
@@ -179,16 +178,38 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
 .doc-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
 .doc-filters button{border:1px solid var(--line);border-radius:999px;background:#f8f8f6;padding:6px 12px;font-weight:800}
 .doc-filters button.active{background:var(--black);color:#fff}
+/* Vue Tous : 5 catégories côte à côte */
 .document-grid{
-    max-height:500px;
-}
-.document-group{margin-bottom:16px}
-.document-group h3{margin:0 0 7px}
-.document-group-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:7px;
+    align-items:start;
 
-    /* nombre de colonnes automatique */
-    grid-template-columns:repeat(auto-fit,minmax(45px,1fr));
-    gap:4px;
+    /* La zone reste dans la carte */
+    max-height:calc(100vh - 350px);
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+.document-grid.filtered-view{
+    grid-template-columns:1fr;
+}
+
+.document-grid.filtered-view .document-group-grid{
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+    gap:7px;
+}
+
+/* Une catégorie masquée ne prend aucune place */
+.document-group{
+min-width:0;
+}
+.document-group h3{
+margin:0 0 7px;
+}
+.document-group-grid{
+grid-template-columns:repeat(auto-fit,minmax(45px,1fr));
+gap:4px;
 }
 
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
