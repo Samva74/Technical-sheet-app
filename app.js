@@ -1,7 +1,12 @@
 const steps=[['client','Client & Projet'],['quantities','Quantités'],['product','Produit'],['components','Composants'],['markings','Marquages'],['outerbox','Contre-boîte'],['documents','Documents'],['validation','Validation']];
 const newComponent=()=>({id:crypto.randomUUID(),name:'',type:'',outerMaterial:'',outerRef:'',innerMaterial:'',innerRef:'',finish:'',finishColorRef:'',varnish:'',texture:'',groove:'Non / No',removable:'Non / No',notes:''});
 const newMarking=()=>({id:crypto.randomUUID(),componentId:'',type:'',precision:'',width:'',color:'',colorRef:'',horizontal:'',vertical:'',offsetH:'',offsetV:'',notes:''});
-const blank=()=>({id:crypto.randomUUID(),client:{},quantities:{prototype:{},bat:{},preseries:{},series:{},bands:[{from:0,to:100,price:''},{from:101,to:500,price:''},{from:501,to:1000,price:''},{from:1001,to:5000,price:''}]},product:{},components:[newComponent()],markings:[newMarking()],outerbox:{},documents:[],validation:{status:'Brouillon'}});let d=JSON.parse(localStorage.getItem('ftDraftV10')||'null')||blank(),cur=0,docFilter='all';if(!d.components?.length)d.components=[newComponent()];if(!d.markings?.length)d.markings=[newMarking()];const all=s=>[...document.querySelectorAll(s)],get=(o,p)=>p.split('.').reduce((a,k)=>a?.[k],o),set=(o,p,v)=>{let a=p.split('.'),x=o;a.slice(0,-1).forEach(k=>x=x[k]??={});x[a.at(-1)]=v};
+const blank=()=>({id:crypto.randomUUID(),client:{},quantities:{prototype:{},bat:{},preseries:{},series:{},bands:[{from:0,to:100,price:''},{from:101,to:500,price:''},{from:501,to:1000,price:''},{from:1001,to:5000,price:''}]},product:{},components:[newComponent()],markings:[newMarking()],outerbox:{},documents:[],validation:{status:'Brouillon'}});
+let d=JSON.parse(localStorage.getItem('ftDraftV10')||'null')||blank(),
+  cur=0,
+  docFilter='all';
+  let currentFileHandle = null;
+if(!d.components?.length)d.components=[newComponent()];if(!d.markings?.length)d.markings=[newMarking()];const all=s=>[...document.querySelectorAll(s)],get=(o,p)=>p.split('.').reduce((a,k)=>a?.[k],o),set=(o,p,v)=>{let a=p.split('.'),x=o;a.slice(0,-1).forEach(k=>x=x[k]??={});x[a.at(-1)]=v};
 function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(b)show(+b.dataset.i)};all('[data-p]').forEach(x=>x.oninput=()=>{set(d,x.dataset.p,x.value);if(x.id==='sourceRef')validateReference();dirty()});renderQuantities();addComp.onclick=()=>{d.components.push(newComponent());renderComponents();dirty()};addMark.onclick=()=>{d.markings.push(newMarking());renderMarkings();dirty()};clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
 newBtn.onclick=()=>{
   if(confirm('Créer une nouvelle fiche ?')){
@@ -12,6 +17,7 @@ newBtn.onclick=()=>{
 };
 openBtn.onclick=openUser;
 saveBtn.onclick=saveUser;
+saveAsBtn.onclick=saveAsUser;
 pdfBtn.onclick=exportPDF;
 zipBtn.onclick=exportZIP;
 adminBtn.onclick=()=>adminDialog.showModal();
@@ -67,6 +73,85 @@ async function saveUser(){
     }
 
 }
+async function saveUser(){
+
+    if(!validRef()) return;
+
+    try{
+
+        if(!currentFileHandle){
+
+            await saveAsUser();
+            return;
+
+        }
+
+        const writable =
+            await currentFileHandle.createWritable();
+
+        await writable.write(
+            JSON.stringify(
+                d,
+                null,
+                2
+            )
+        );
+
+        await writable.close();
+
+        state.style.color='#2f9149';
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+}
+
+async function saveAsUser(){
+
+    if(!validRef()) return;
+
+    try{
+
+        currentFileHandle =
+            await window.showSaveFilePicker({
+
+            suggestedName:
+                'TECHSHEET_' +
+                safeName() +
+                '.json',
+
+            types:[{
+                description:'Technical Sheet',
+                accept:{
+                    'application/json':['.json']
+                }
+            }]
+        });
+
+        const writable =
+            await currentFileHandle.createWritable();
+
+        await writable.write(
+            JSON.stringify(
+                d,
+                null,
+                2
+            )
+        );
+
+        await writable.close();
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+}
+
 function dirty(){state.style.color='#f47738';validateReference()}
 async function openUser(){
 
@@ -82,6 +167,8 @@ async function openUser(){
                 }
             }]
         });
+
+      currentFileHandle = handle;
 
         const file =
             await handle.getFile();
@@ -118,7 +205,8 @@ function renderQuantities(){
   ${tr('quantity')}
   <div class="unit-input"><input type="number" min="0" data-q="${k}" data-f="quantity" value="${d.quantities[k]?.quantity||''}"><span>pces</span></div></label><label>${tr('price')}<div class="unit-input"><input type="number" min="0" step="0.01" data-q="${k}" data-f="price" value="${d.quantities[k]?.price||''}"><span>€</span></div></label></article>`).join('');priceVent.innerHTML=d.quantities.bands.map((b,i)=>`<div class="vent-item"><input type="number" data-band="${i}" data-f="from" value="${b.from}"><b>à</b><input type="number" data-band="${i}" data-f="to" value="${b.to}"><div class="unit-input price"><input type="number" step="0.01" data-band="${i}" data-f="price" value="${b.price||''}" placeholder="${tr('price')}"><span>€</span></div></div>`).join('');all('[data-q]').forEach(x=>x.oninput=()=>{d.quantities[x.dataset.q][x.dataset.f]=x.value;dirty()});all('[data-band]').forEach(x=>x.oninput=()=>{d.quantities.bands[+x.dataset.band][x.dataset.f]=x.value;dirty()})}
 function field(l,k,v,t='text',opts=[]){l=trText(l);return `<label>${l}${t==='select'?`<select data-k="${k}"><option></option>${opts.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`:`<input data-k="${k}" type="${t}" value="${String(v??'').replaceAll('"','&quot;')}">`}</label>`}const materials=['Tissus / Fabric','Papier / Paper','Cuir / Leather','Simili cuir / Faux leather','Synthétique / Synthetic','Bois / Wood','Plastique / Plastic','Métal / Metal','Autre / Other'];
-function renderComponents(){components.innerHTML=d.components.map((c,i)=>`<article class="repeat component-card" data-i="${i}"><div class="repeat-head"><h3>${tr('component')} ${i+1}</h3><button class="remove">×</button></div><div class="component-final"><div class="component-left"><div class="component-param-grid"><div class="pair-col">${field(tr('name'),'name',c.name)}${field(tr('outerMaterial'),'outerMaterial',c.outerMaterial,'select',materials)}${field(tr('innerMaterial'),'innerMaterial',c.innerMaterial,'select',materials)}${field(tr('finish'),'finish',c.finish,'select',['Teinte / Shade','Vernis / Varnish','Laque / Lacquer','Brossé / Brushed','Poli / Polished','Autre / Other'])}${field(tr('varnish'),'varnish',c.varnish,'select',['Aucun / None','Extra-mat / Extra-matte','Mat / Matt','Satiné / Satin','Brillant / Gloss'])}${field(tr('groove'),'groove',c.groove,'select',['Oui / Yes','Non / No'])}</div><div class="pair-col">${field(tr('type'),'type',c.type,'select',['Extérieur / Exterior','Intérieur base / Inside base','Intérieur couvercle / Inside lid','Contre-boîte / Outerbox','Cartouche / Inlay','Coussin / Cushion','Ciel / Sky','Autre / Other'])}${field(tr('outerRef'),'outerRef',c.outerRef)}${field(tr('innerRef'),'innerRef',c.innerRef)}${field(tr('finishColor'),'finishColorRef',c.finishColorRef)}${field(tr('texture'),'texture',c.texture)}${field(tr('removable'),'removable',c.removable,'select',['Oui / Yes','Non / No'])}</div></div><label class="component-notes"><span>${tr('notes')}</span><textarea data-k="notes">${c.notes||''}</textarea></label></div><div class="component-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('componentImages')}<input class="component-files" data-component="${c.id}" type="file" accept="image/*" multiple></label><div class="mini-preview component-thumbs" data-preview-component="${c.id}"></div></div></div></article>`).join('');all('#components .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.components[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.components[i].id;d.components.splice(i,1);if(!d.components.length)d.components.push(newComponent());d.markings=d.markings.filter(m=>m.componentId!==id);d.documents=d.documents.filter(x=>x.contextId!==id);renderComponents();renderMarkings();renderDocuments();dirty()}});all('.component-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'component',e.target.dataset.component));renderPreviews();applyTranslations()}
+function renderComponents(){components.innerHTML=d.components.map((c,i)=>`<article class="repeat component-card" data-i="${i}"><div class="repeat-head"><h3>${tr('component')} ${i+1}</h3><button class="remove">×</button></div><div class="component-final"><div class="component-left"><div class="component-param-grid"><div class="pair-col">${field(tr('name'),'name',c.name)}${field(tr('outerMaterial'),'outerMaterial',c.outerMaterial,'select',materials)}${field(tr('innerMaterial'),'innerMaterial',c.innerMaterial,'select',materials)}${field(tr('finish'),'finish',c.finish,'select',['Teinte / Shade','Vernis / Varnish','Laque / Lacquer','Brossé / Brushed','Poli / Polished','Autre / Other'])}${field(tr('varnish'),'varnish',c.varnish,'select',['Aucun / None','Extra-mat / Extra-matte','Mat / Matt','Satiné / Satin','Brillant / Gloss'])}${field(tr('groove'),'groove',c.groove,'select',['Oui / Yes','Non / No'])}</div><div class="pair-col">${field(tr('type'),'type',c.type,'select',['Extérieur / Exterior','Intérieur base / Inside base','Intérieur couvercle / Inside lid','Contre-boîte / Outerbox','Cartouche / Inlay','Coussin / Cushion','Ciel / Sky','Autre / Other'])}${field(tr('outerRef'),'outerRef',c.outerRef)}${field(tr('innerRef'),'innerRef',c.innerRef)}${field(tr('finishColor'),'finishColorRef',c.finishColorRef)}${field(tr('texture'),'texture',c.texture)}${field(tr('removable'),'removable',c.removable,'select',['Oui / Yes','Non / No'])}</div></div><label class="component-notes"><span>${tr('notes')}</span><textarea data-k="notes">${c.notes||''}</textarea></label></div><div class="component-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('componentImages')}<input class="component-files" data-component="${c.id}" type="file" accept="image/*" multiple></label><div class="mini-preview component-thumbs" data-preview-component="${c.id}"></div></div></div></article>`).join('');all('#components .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.components[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.components[i].id;d.components.splice(i,1);if(!d.components.length)d.components.push(newComponent());d.markings=d.markings.filter(m=>m.componentId!==id);d.documents=d.documents.filter(x=>x.contextId!==id);renderComponents();renderMarkings();renderDocuments();dirty()}});all('.component-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'component',e.target.dataset.component));renderPreviews();
+applyTranslations()}
 function renderMarkings(){markings.innerHTML=d.markings.map((m,i)=>`<article class="repeat marking-card" data-i="${i}"><div class="repeat-head"><h3>${tr('marking')} ${i+1}</h3><button class="remove">×</button></div><div class="marking-final"><div class="marking-left"><div class="marking-param-grid"><div class="pair-col"><label>${tr('component')}<select data-k="componentId"><option></option>${d.components.map(c=>`<option value="${c.id}" ${c.id===m.componentId?'selected':''}>${c.name||c.type||tr('component')}</option>`).join('')}</select></label>${field(tr('precision'),'precision',m.precision)}${field(tr('color'),'color',m.color,'select',['Or jaune / Yellow gold','Or blanc / White gold','Or rose / Pink gold','Pantone','RAL','NCS','Autre / Other'])}${field(tr('horizontal'),'horizontal',m.horizontal,'select',['Centré / Centred','Depuis la gauche / From left','Depuis la droite / From right'])}${field(tr('horizontalOffset'),'offsetH',m.offsetH,'number')}</div><div class="pair-col">${field(tr('type'),'type',m.type,'select',['Marquage à chaud / Hot stamping','Sticker métal / Metal sticker','Impression UV / UV printing','Autre / Other'])}${field(tr('width'),'width',m.width,'number')}${field(tr('colorRef'),'colorRef',m.colorRef)}${field(tr('vertical'),'vertical',m.vertical,'select',['Centré / Centred','Depuis le bas / From bottom','Depuis le haut / From top'])}${field(tr('verticalOffset'),'offsetV',m.offsetV,'number')}</div></div><label class="marking-notes"><span>${tr('notes')}</span><textarea data-k="notes">${m.notes||''}</textarea></label></div><div class="marking-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('selectFiles')}<input class="mark-files" data-mark="${m.id}" type="file" multiple></label><div class="mini-preview marking-thumbs" data-preview-mark="${m.id}"></div></div></div></article>`).join('');all('#markings .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.markings[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.markings[i].id;d.markings.splice(i,1);if(!d.markings.length)d.markings.push(newMarking());d.documents=d.documents.filter(x=>x.contextId!==id);renderMarkings();renderDocuments();dirty()}});all('.mark-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'marking',e.target.dataset.mark));renderPreviews();applyTranslations()}
 async function addFiles(files,context,contextId,single=false){if(single)d.documents=d.documents.filter(x=>x.context!=='product');for(const f of files){let data=await fileToBase64(f);d.documents.push({id:crypto.randomUUID(),name:f.name,size:f.size,type:f.type||'application/octet-stream',context,contextId,data,modified:new Date().toISOString()})}renderPreviews();renderDocuments();dirty()}function fileToBase64(f){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}function previewHtml(doc){let image=doc.type.startsWith('image/')?`<img src="${doc.data}" alt="">`:'<div class="file-symbol">📎</div>';return `<div class="preview-item">${image}<small>${doc.name}</small><button class="remove-doc" data-doc="${doc.id}">×</button></div>`}function renderPreviews(){clientPreview.innerHTML=d.documents.filter(x=>x.context==='client').map(previewHtml).join('');productPreview.innerHTML=d.documents.filter(x=>x.context==='product').map(previewHtml).join('');outerboxPreview.innerHTML=d.documents.filter(x=>x.context==='outerbox').map(previewHtml).join('');all('[data-preview-component]').forEach(box=>box.innerHTML=d.documents.filter(x=>x.context==='component'&&x.contextId===box.dataset.previewComponent).map(previewHtml).join(''));all('[data-preview-mark]').forEach(box=>box.innerHTML=d.documents.filter(x=>x.context==='marking'&&x.contextId===box.dataset.previewMark).map(previewHtml).join(''));all('.remove-doc').forEach(b=>b.onclick=()=>removeDoc(b.dataset.doc))}function renderOuterboxConditional(){cavityDimensionsWrap.hidden=d.outerbox.leaflet!=='Oui / Yes';drawerDescriptionWrap.hidden=d.outerbox.drawer!=='Oui / Yes'}function removeDoc(id){d.documents=d.documents.filter(x=>x.id!==id);renderPreviews();renderDocuments();dirty()}
 function renderDocuments(){let docs=docFilter==='all'?d.documents:d.documents.filter(x=>x.context===docFilter);const card=x=>`<article class="document-card">${x.type.startsWith('image/')?`<img src="${x.data}" alt="">`:'<div class="file-symbol">📎</div>'}<b>${x.name}</b><small>${contextLabel(x.context)} · ${formatSize(x.size)}</small><button class="remove-doc" data-doc="${x.id}">×</button></article>`;if(docFilter==='all'&&docs.length){const groups=['client','product','component','marking','outerbox','documents'];documentList.innerHTML=groups.map(g=>{let items=docs.filter(x=>x.context===g);return items.length?`<section class="document-group"><h3>${contextLabel(g)}</h3><div class="document-group-grid">${items.map(card).join('')}</div></section>`:''}).join('')}else documentList.innerHTML=docs.length?docs.map(card).join(''):'<div class="hint">Aucun document dans cette catégorie.</div>';all('#documentList .remove-doc').forEach(b=>b.onclick=()=>removeDoc(b.dataset.doc));docCount.textContent=d.documents.length+' fichier'+(d.documents.length>1?'s':'');docWeight.textContent=formatSize(d.documents.reduce((a,x)=>a+(x.size||0),0));let mods=d.documents.map(x=>x.modified).filter(Boolean).sort();docModified.textContent=mods.length?'Dernière modification : '+new Date(mods.at(-1)).toLocaleString(currentLang==='pt'?'pt-PT':currentLang==='en'?'en-GB':'fr-FR'):'Aucune modification'}
