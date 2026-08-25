@@ -1,6 +1,9 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Technical Sheet App V10.1</title><link rel="stylesheet" href="styles.css"></head><body>
 <header><div class="brand"><div class="logo"><svg viewBox="0 0 64 64"><rect x="14" y="8" width="36" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="4"/><path d="M23 21h18M23 31h18M23 41h10M38 44l4 4 9-11" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h1>Technical Sheet App</h1></div><div class="head-actions"><a class="pill" href="/">🏠 Hub</a><button class="pill" id="adminBtn">⚙ Administration</button><span class="pill user">porceillon@me.com</span><button class="pill lang active" data-lang="fr">French</button><button class="pill lang" data-lang="en">English</button><button class="pill lang" data-lang="pt">Português</button></div></header>
-<div class="layout"><aside class="card side"><button id="newBtn" class="new-top">＋ Nouvelle fiche</button><div class="ref"><small>Référence</small><b id="refText" class="waiting">En attente référence source</b><span id="state">●</span></div><div id="requiredMsg" class="required-msg">Une référence source est obligatoire avant tout enregistrement ou export.</div><nav id="nav"></nav><div class="actions">
+<div class="layout"><aside class="card side">
+<div class="ref"><small>Référence</small><b id="refText" class="waiting">En attente référence source</b><span id="state">●</span></div><div id="requiredMsg" class="required-msg">Une référence source est obligatoire avant tout enregistrement ou export.</div><nav id="nav"></nav>
+<div class="actions">
+<button id="newBtn">🗑 Nouveau</button>
 <button id="openBtn">📂 Ouvrir</button>
 <button id="saveBtn">💾 Enregistrer</button>
 <button id="pdfBtn">📄 Enregistrer PDF</button>
