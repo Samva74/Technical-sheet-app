@@ -559,3 +559,7 @@ function renderNav(){nav.innerHTML=steps.map((s,i)=>`<button data-i="${i}" class
 function applyTranslations(){all('.lang').forEach(x=>x.classList.toggle('active',x.dataset.lang===currentLang));all('[data-i18n]').forEach(x=>x.textContent=tr(x.dataset.i18n));                       
 newBtn.innerHTML='📄 Nouveau';document.querySelector('.ref small').textContent=tr('reference');if(!validRef())refText.textContent=tr('waiting');requiredMsg.textContent=tr('required');saveBtn.textContent='💾 '+tr('save');pdfBtn.textContent='📄 '+tr('savePdf');zipBtn.textContent='📦 '+tr('saveZip');prev.textContent=tr('previous');next.textContent=tr('next');document.querySelectorAll('.doc-filters button').forEach(b=>{const map={all:'all',client:'clientProject',product:'product',component:'components',marking:'markings',outerbox:'outerbox',documents:'documents'};b.textContent=tr(map[b.dataset.filter])})}
 init();applyTranslations();
+
+async function saveAsUser(){
+    alert("SAVE AS");
+}
