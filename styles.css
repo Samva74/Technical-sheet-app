@@ -60,9 +60,10 @@ nav button.active{background:var(--black);color:#fff}
 }
 
 .actions button{
-    height:48px;
-    font-size:18px;
+    height:38px;
+    font-size:16px;
     font-weight:800;
+    padding:4px 8px;
 }
 .actions button,.title-row button,.pager button{border:1px solid var(--black);border-radius:11px;padding:7px;font-weight:800;cursor:pointer;background:var(--black);color:#fff}
 .actions button:disabled{opacity:.35}.light{background:#fafaf8!important;color:#111!important;border-color:var(--line)!important}main{min-width:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
