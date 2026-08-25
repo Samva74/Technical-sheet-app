@@ -27,38 +27,34 @@ importFile.onchange=importJson;prev.onclick=()=>show(Math.max(0,cur-1));
 next.onclick=()=>show(Math.min(steps.length-1,cur+1));all('.lang').forEach(b=>b.onclick=()=>setLanguage(b.dataset.lang));all('.doc-filters button').forEach(b=>b.onclick=()=>{docFilter=b.dataset.filter;all('.doc-filters button').forEach(x=>x.classList.toggle('active',x===b));renderDocuments()});renderAll();show(0)}
 function renderAll(){all('[data-p]').forEach(x=>x.value=get(d,x.dataset.p)??'');renderQuantities();renderComponents();renderMarkings();renderPreviews();renderDocuments();renderOuterboxConditional();renderSummary();validateReference();applyLanguage()}
 function show(i){cur=i;all('.panel').forEach((x,n)=>x.classList.toggle('active',n===i));all('nav button').forEach((x,n)=>x.classList.toggle('active',n===i));bar.style.width=(i+1)/steps.length*100+'%';prev.disabled=i===0;next.disabled=i===steps.length-1;if(steps[i][0]==='components'&&!d.components.length){d.components.push(newComponent());renderComponents()}if(steps[i][0]==='markings'&&!d.markings.length){d.markings.push(newMarking());renderMarkings()}if(steps[i][0]==='documents')renderDocuments();if(steps[i][0]==='validation')renderSummary();scrollTo({top:0,behavior:'smooth'})}
-function validRef(){return !!(d.client.sourceReference||'').trim()}function safeName(){return (d.client.sourceReference||'Technical-Sheet').trim().replace(/[\\/:*?"<>|]+/g,'-')}function validateReference(){let ok=validRef(),r=(d.client.sourceReference||'').trim();refText.textContent=ok?r:tr('waiting');refText.classList.toggle('waiting',!ok);requiredMsg.hidden=ok;[saveBtn,pdfBtn,zipBtn].forEach(b=>b.disabled=!ok)}
+function validRef(){return !!(d.client.sourceReference||'').trim()}function safeName(){return (d.client.sourceReference||'Technical-Sheet').trim().replace(/[\\/:*?"<>|]+/g,'-')}function validateReference(){let ok=validRef(),r=(d.client.sourceReference||'').trim();refText.textContent=ok?r:tr('waiting');refText.classList.toggle('waiting',!ok);requiredMsg.hidden=ok;
+[saveBtn,pdfBtn,zipBtn]
+saveBtn.disabled   = !ok;
+saveAsBtn.disabled = !ok;
+pdfBtn.disabled    = !ok;
+zipBtn.disabled    = !ok;
+
+newBtn.disabled  = false;
+openBtn.disabled = false;
+}
 async function saveUser(){
 
     if(!validRef()) return;
 
     try{
 
-        const handle =
-            await window.showSaveFilePicker({
+        if(!currentFileHandle){
 
-            suggestedName:
-                'TECHSHEET_' +
-                safeName() +
-                '.json',
+            await saveAsUser();
+            return;
 
-            types:[{
-                description:'Technical Sheet',
-                accept:{
-                    'application/json':['.json']
-                }
-            }]
-        });
+        }
 
         const writable =
-            await handle.createWritable();
+            await currentFileHandle.createWritable();
 
         await writable.write(
-            JSON.stringify(
-                d,
-                null,
-                2
-            )
+            JSON.stringify(d,null,2)
         );
 
         await writable.close();
@@ -71,7 +67,6 @@ async function saveUser(){
         console.log(error);
 
     }
-
 }
 
 async function saveUser(){
