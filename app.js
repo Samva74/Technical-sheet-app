@@ -73,6 +73,7 @@ async function saveUser(){
     }
 
 }
+
 async function saveUser(){
 
     if(!validRef()) return;
@@ -100,49 +101,6 @@ async function saveUser(){
         await writable.close();
 
         state.style.color='#2f9149';
-
-    }
-    catch(error){
-
-        console.log(error);
-
-    }
-}
-
-async function saveAsUser(){
-
-    if(!validRef()) return;
-
-    try{
-
-        currentFileHandle =
-            await window.showSaveFilePicker({
-
-            suggestedName:
-                'TECHSHEET_' +
-                safeName() +
-                '.json',
-
-            types:[{
-                description:'Technical Sheet',
-                accept:{
-                    'application/json':['.json']
-                }
-            }]
-        });
-
-        const writable =
-            await currentFileHandle.createWritable();
-
-        await writable.write(
-            JSON.stringify(
-                d,
-                null,
-                2
-            )
-        );
-
-        await writable.close();
 
     }
     catch(error){
