@@ -10,6 +10,7 @@ newBtn.onclick=()=>{
     renderAll();
     show(0)}
 };
+openBtn.onclick=openUser;
 saveBtn.onclick=saveUser;
 pdfBtn.onclick=exportPDF;
 zipBtn.onclick=exportZIP;
