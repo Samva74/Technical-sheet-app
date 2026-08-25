@@ -53,7 +53,17 @@ nav button{
     box-shadow:0 1px 3px rgba(0,0,0,.08);
 }
 nav button.active{background:var(--black);color:#fff}
-.actions{margin-top:auto;display:grid;gap:5px}
+.actions{
+    margin-top:auto;
+    display:grid;
+    gap:8px;
+}
+
+.actions button{
+    height:48px;
+    font-size:18px;
+    font-weight:800;
+}
 .actions button,.title-row button,.pager button{border:1px solid var(--black);border-radius:11px;padding:7px;font-weight:800;cursor:pointer;background:var(--black);color:#fff}
 .actions button:disabled{opacity:.35}.light{background:#fafaf8!important;color:#111!important;border-color:var(--line)!important}main{min-width:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
 .progress{height:4px;background:#b9b8b1;border-radius:99px;margin:0 4px 8px}
@@ -904,4 +914,14 @@ body.pdf-exporting .repeat{
 body.pdf-exporting .preview-item img,
 body.pdf-exporting .document-card img{
     object-fit:contain !important;
+}
+#openBtn{
+    background:#191918 !important;
+    color:#fff !important;
+}
+
+#newBtn{
+    background:#f4f4f4 !important;
+    color:#111 !important;
+    border:1px solid #999 !important;
 }
