@@ -28,7 +28,7 @@ next.onclick=()=>show(Math.min(steps.length-1,cur+1));all('.lang').forEach(b=>b.
 function renderAll(){all('[data-p]').forEach(x=>x.value=get(d,x.dataset.p)??'');renderQuantities();renderComponents();renderMarkings();renderPreviews();renderDocuments();renderOuterboxConditional();renderSummary();validateReference();applyTranslations()}
 function show(i){cur=i;all('.panel').forEach((x,n)=>x.classList.toggle('active',n===i));all('nav button').forEach((x,n)=>x.classList.toggle('active',n===i));bar.style.width=(i+1)/steps.length*100+'%';prev.disabled=i===0;next.disabled=i===steps.length-1;if(steps[i][0]==='components'&&!d.components.length){d.components.push(newComponent());renderComponents()}if(steps[i][0]==='markings'&&!d.markings.length){d.markings.push(newMarking());renderMarkings()}if(steps[i][0]==='documents')renderDocuments();if(steps[i][0]==='validation')renderSummary();scrollTo({top:0,behavior:'smooth'})}
 function validRef(){return !!(d.client.sourceReference||'').trim()}function safeName(){return (d.client.sourceReference||'Technical-Sheet').trim().replace(/[\\/:*?"<>|]+/g,'-')}function validateReference(){let ok=validRef(),r=(d.client.sourceReference||'').trim();refText.textContent=ok?r:tr('waiting');refText.classList.toggle('waiting',!ok);requiredMsg.hidden=ok;
-[saveBtn,pdfBtn,zipBtn]
+
 saveBtn.disabled   = !ok;
 saveAsBtn.disabled = !ok;
 pdfBtn.disabled    = !ok;
@@ -38,74 +38,43 @@ newBtn.disabled  = false;
 openBtn.disabled = false;
 }
 async function saveUser(){
-
     if(!validRef()) return;
 
     try{
-
         if(!currentFileHandle){
-
             await saveAsUser();
             return;
-
         }
 
         const writable =
             await currentFileHandle.createWritable();
 
         await writable.write(
-            JSON.stringify(d,null,2)
+            JSON.stringify(d, null, 2)
         );
 
         await writable.close();
 
-        state.style.color='#2f9149';
-
-    }
-    catch(error){
-
-        console.log(error);
-
-    }
-}
-
-async function saveUser(){
-
-    if(!validRef()) return;
-
-    try{
-
-        if(!currentFileHandle){
-
-            await saveAsUser();
-            return;
-
-        }
-
-        const writable =
-            await currentFileHandle.createWritable();
-
-        await writable.write(
-            JSON.stringify(
-                d,
-                null,
-                2
-            )
+        localStorage.setItem(
+            'ftDraftV10',
+            JSON.stringify(d)
         );
 
-        await writable.close();
+        state.style.color = '#2f9149';
 
-        state.style.color='#2f9149';
-
-    }
-    catch(error){
-
-        console.log(error);
-
+    }catch(error){
+        console.error(
+            'Erreur lors de l’enregistrement :',
+            error
+        );
     }
 }
 
-function dirty(){state.style.color='#f47738';validateReference()}
+function dirty(){
+    state.style.color = '#f47738';
+    validateReference();
+}
+
 async function openUser(){
 
     try{
@@ -204,106 +173,6 @@ function waitForPdfImages(container){
             });
         })
     );
-}
-
-function addCanvasPagesToPdf(pdf, canvas, firstPage){
-    const pageWidth =
-        pdf.internal.pageSize.getWidth();
-
-    const pageHeight =
-        pdf.internal.pageSize.getHeight();
-
-    const margin = 4;
-
-    const printableWidth =
-        pageWidth - margin * 2;
-
-    const printableHeight =
-        pageHeight - margin * 2;
-
-    const pixelsPerPdfMillimetre =
-        canvas.width / printableWidth;
-
-    const sliceHeightPixels =
-        Math.floor(
-            printableHeight *
-            pixelsPerPdfMillimetre
-        );
-
-    let sourceY = 0;
-    let isFirstSlice = true;
-
-    while(sourceY < canvas.height){
-        const remainingHeight =
-            canvas.height - sourceY;
-
-        const currentSliceHeight =
-            Math.min(
-                sliceHeightPixels,
-                remainingHeight
-            );
-
-        const sliceCanvas =
-            document.createElement('canvas');
-
-        sliceCanvas.width = canvas.width;
-        sliceCanvas.height = currentSliceHeight;
-
-        const context =
-            sliceCanvas.getContext('2d');
-
-        context.fillStyle = '#f2f2ef';
-
-        context.fillRect(
-            0,
-            0,
-            sliceCanvas.width,
-            sliceCanvas.height
-        );
-
-        context.drawImage(
-            canvas,
-            0,
-            sourceY,
-            canvas.width,
-            currentSliceHeight,
-            0,
-            0,
-            canvas.width,
-            currentSliceHeight
-        );
-
-        if(!firstPage || !isFirstSlice){
-            pdf.addPage('a4', 'landscape');
-        }
-
-        const imageData =
-            sliceCanvas.toDataURL(
-                'image/jpeg',
-                0.95
-            );
-
-        const renderedHeight =
-            currentSliceHeight /
-            pixelsPerPdfMillimetre;
-
-        pdf.addImage(
-            imageData,
-            'JPEG',
-            margin,
-            margin,
-            printableWidth,
-            renderedHeight,
-            undefined,
-            'FAST'
-        );
-
-        sourceY += currentSliceHeight;
-        firstPage = false;
-        isFirstSlice = false;
-    }
-
-    return firstPage;
 }
 
 async function exportPDF(){
@@ -418,12 +287,51 @@ async function exportPDF(){
             panel.style.overflow =
                 previousOverflow;
 
-            firstPage =
-                addCanvasPagesToPdf(
-                    pdf,
-                    canvas,
-                    firstPage
-                );
+            const pageWidth =
+    pdf.internal.pageSize.getWidth();
+
+const pageHeight =
+    pdf.internal.pageSize.getHeight();
+
+const margin = 4;
+
+const availableWidth =
+    pageWidth - (margin * 2);
+
+const availableHeight =
+    pageHeight - (margin * 2);
+
+const imageRatio =
+    canvas.width / canvas.height;
+
+const pageRatio =
+    availableWidth / availableHeight;
+
+let imageWidth;
+let imageHeight;
+
+if(imageRatio > pageRatio){
+    imageWidth = availableWidth;
+    imageHeight = imageWidth / imageRatio;
+}else{
+    imageHeight = availableHeight;
+    imageWidth = imageHeight * imageRatio;
+}
+
+if(!firstPage){
+    pdf.addPage('a4','landscape');
+}
+
+pdf.addImage(
+    canvas.toDataURL('image/jpeg',0.95),
+    'JPEG',
+    (pageWidth-imageWidth)/2,
+    (pageHeight-imageHeight)/2,
+    imageWidth,
+    imageHeight
+);
+
+firstPage = false;
         }
 
         pdf.save(
@@ -561,5 +469,40 @@ newBtn.innerHTML='📄 Nouveau';document.querySelector('.ref small').textContent
 init();applyTranslations();
 
 async function saveAsUser(){
-    alert("SAVE AS");
+
+    if(!validRef()) return;
+
+    try{
+
+        currentFileHandle =
+            await window.showSaveFilePicker({
+                suggestedName:
+                    safeName() + '.json',
+
+                types:[{
+                    description:'Technical Sheet',
+                    accept:{
+                        'application/json':['.json']
+                    }
+                }]
+            });
+
+        const writable =
+            await currentFileHandle.createWritable();
+
+        await writable.write(
+            JSON.stringify(d,null,2)
+        );
+
+        await writable.close();
+
+        state.style.color='#2f9149';
+
+    }catch(error){
+
+        if(error.name !== 'AbortError'){
+            console.error(error);
+        }
+
+    }
 }
