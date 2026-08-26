@@ -328,12 +328,14 @@ if(!firstPage){
 }
 
 pdf.addImage(
-    canvas.toDataURL('image/jpeg'),
+    canvas.toDataURL('image/png'),
     'PNG',
-    (pageWidth-imageWidth)/2,
-    (pageHeight-imageHeight)/2,
+    (pageWidth - imageWidth) / 2,
+    (pageHeight - imageHeight) / 2,
     imageWidth,
-    imageHeight
+    imageHeight,
+    undefined,
+    'FAST'
 );
 
 firstPage = false;
