@@ -75,7 +75,7 @@ nav button.active{background:var(--black);color:#fff}
     grid-row:2;
 
     height:calc(100vh - 144px);
-    overflow:hidden;
+    overflow:auto;
 }
 
 .panel.active{
@@ -224,7 +224,12 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
     min-height:520px;
 }
 .repeat{background:#e9e9e5;border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:8px}.repeat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.repeat-head h3{margin:0;font-size:15px}.remove{border:0;border-radius:10px;background:var(--black);color:#fff;width:36px;height:36px;font-size:21px}
-.component-final,.marking-final{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);gap:10px;height:708px}
+.component-final,
+.marking-final{
+      display:grid;
+      grid-template-columns:minmax(0,44%) minmax(0,56%);
+      gap:10px;
+      min-height:708px}
 .component-left,.marking-left{display:grid;grid-template-rows:auto auto;gap:10px}
 .component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;height:270px}
 .component-notes,.marking-notes{height:auto;align-self:end}
