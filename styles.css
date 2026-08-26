@@ -32,7 +32,7 @@ header{min-height:76px;display:flex;align-items:center;justify-content:space-bet
     font-size:17px;
 }
 
-.ref b{white-space:nowrap;font-size:12px}
+.ref b{white-space:nowrap;font-size:16px}
 .ref .waiting,.required-msg{color:var(--red)}#state{color:#2f9149}
 .required-msg{
     font-size:15px;
@@ -106,7 +106,7 @@ textarea{
     color:#111;
     font-weight:600;
 
-    font-size:18px;
+    font-size:16px;
 }
 textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% minmax(0,56%);gap:9px}.form-col,.pair-col{display:grid;align-content:start;gap:8px}
 .field-spacer{
