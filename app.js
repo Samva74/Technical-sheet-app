@@ -7,7 +7,29 @@ let d=JSON.parse(localStorage.getItem('ftDraftV10')||'null')||blank(),
   docFilter='all';
   let currentFileHandle = null;
 if(!d.components?.length)d.components=[newComponent()];if(!d.markings?.length)d.markings=[newMarking()];const all=s=>[...document.querySelectorAll(s)],get=(o,p)=>p.split('.').reduce((a,k)=>a?.[k],o),set=(o,p,v)=>{let a=p.split('.'),x=o;a.slice(0,-1).forEach(k=>x=x[k]??={});x[a.at(-1)]=v};
-function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(b)show(+b.dataset.i)};all('[data-p]').forEach(x=>x.oninput=()=>{set(d,x.dataset.p,x.value);if(x.id==='sourceRef')validateReference();dirty()});renderQuantities();addComp.onclick=()=>{d.components.push(newComponent());renderComponents();dirty()};addMark.onclick=()=>{d.markings.push(newMarking());renderMarkings();dirty()};clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
+function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(b)show(+b.dataset.i)};all('[data-p]').forEach(x=>x.oninput=()=>{set(d,x.dataset.p,x.value);if(x.id==='sourceRef')validateReference();dirty()});renderQuantities();
+                addComp.onclick=()=>{
+    d.components.push(newComponent());
+
+    renderComponents();
+    dirty();
+
+    requestAnimationFrame(() => {
+
+        const cards =
+            document.querySelectorAll(
+                '.component-card'
+            );
+
+        cards[cards.length - 1]
+            ?.scrollIntoView({
+                behavior:'smooth',
+                block:'start'
+            });
+
+    });
+};
+                addMark.onclick=()=>{d.markings.push(newMarking());renderMarkings();dirty()};clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
 newBtn.onclick=()=>{
   if(confirm('Créer une nouvelle fiche ?')){
     d=blank();
@@ -278,6 +300,68 @@ function waitForPdfImages(container){
     );
 }
 
+async function exportElementToPdf(
+    element,
+    pdf,
+    firstPage
+){
+
+    await waitForPdfImages(element);
+
+    const canvas =
+        await html2canvas(
+            element,
+            {
+                scale:3,
+                useCORS:true,
+                backgroundColor:'#f2f2ef'
+            }
+        );
+
+    const pageWidth =
+        pdf.internal.pageSize.getWidth();
+
+    const pageHeight =
+        pdf.internal.pageSize.getHeight();
+
+    const imageRatio =
+        canvas.width / canvas.height;
+
+    let width =
+        pageWidth;
+
+    let height =
+        width / imageRatio;
+
+    if(height > pageHeight){
+
+        height = pageHeight;
+        width =
+            height * imageRatio;
+
+    }
+
+    if(!firstPage){
+
+        pdf.addPage(
+            'a4',
+            'landscape'
+        );
+
+    }
+
+    pdf.addImage(
+        canvas.toDataURL(
+            'image/png'
+        ),
+        'PNG',
+        (pageWidth-width)/2,
+        (pageHeight-height)/2,
+        width,
+        height
+    );
+}
+
 async function exportPDF(){
     if(!validRef()) return;
 
@@ -332,9 +416,54 @@ async function exportPDF(){
             await waitForPdfLayout();
 
             const panel =
-                document.querySelector(
-                    '.panel.active'
-                );
+    document.querySelector(
+        '.panel.active'
+    );
+
+if(
+    steps[stepIndex][0] === 'components'
+){
+    const componentCards =
+        panel.querySelectorAll(
+            '.component-card'
+        );
+
+    for(
+        const card of componentCards
+    ){
+        await exportElementToPdf(
+            card,
+            pdf,
+            firstPage
+        );
+
+        firstPage = false;
+    }
+
+    continue;
+}
+if(
+    steps[stepIndex][0] === 'markings'
+){
+    const markingCards =
+        panel.querySelectorAll(
+            '.marking-card'
+        );
+
+    for(
+        const card of markingCards
+    ){
+        await exportElementToPdf(
+            card,
+            pdf,
+            firstPage
+        );
+
+        firstPage = false;
+    }
+
+    continue;
+}          
 
             if(!panel) continue;
 
