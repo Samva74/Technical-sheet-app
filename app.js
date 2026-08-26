@@ -135,7 +135,77 @@ function renderMarkings(){markings.innerHTML=d.markings.map((m,i)=>`<article cla
 async function addFiles(files,context,contextId,single=false){if(single)d.documents=d.documents.filter(x=>x.context!=='product');for(const f of files){let data=await fileToBase64(f);d.documents.push({id:crypto.randomUUID(),name:f.name,size:f.size,type:f.type||'application/octet-stream',context,contextId,data,modified:new Date().toISOString()})}renderPreviews();renderDocuments();dirty()}
 function fileToBase64(f){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}
 function previewHtml(doc){let image=doc.type.startsWith('image/')?`<img src="${doc.data}" alt="">`:'<div class="file-symbol">📎</div>';return `<div class="preview-item">${image}<small>${doc.name}</small><button class="remove-doc" data-doc="${doc.id}">×</button></div>`}
-function renderPreviews(){clientPreview.innerHTML=d.documents.filter(x=>x.context==='client').map(previewHtml).join('');productPreview.innerHTML=d.documents.filter(x=>x.context==='product').map(previewHtml).join('');outerboxPreview.innerHTML=d.documents.filter(x=>x.context==='outerbox').map(previewHtml).join('');all('[data-preview-component]').forEach(box=>box.innerHTML=d.documents.filter(x=>x.context==='component'&&x.contextId===box.dataset.previewComponent).map(previewHtml).join(''));all('[data-preview-mark]').forEach(box=>box.innerHTML=d.documents.filter(x=>x.context==='marking'&&x.contextId===box.dataset.previewMark).map(previewHtml).join(''));all('.remove-doc').forEach(b=>b.onclick=()=>removeDoc(b.dataset.doc))}
+function renderPreviews(){
+  clientPreview.innerHTML=
+    d.documents
+    .filter(x=>x.context==='client')
+    .map(previewHtml)
+    .join('');
+  productPreview.innerHTML=
+    d.documents
+    .filter(x=>x.context==='product')
+    .map(previewHtml)
+    .join('');
+  outerboxPreview.innerHTML=
+    d.documents
+    .filter(x=>x.context==='outerbox')
+    .map(previewHtml)
+    .join('');
+  all('[data-preview-component]')
+.forEach(box => {
+
+    const files =
+        d.documents.filter(x =>
+            x.context === 'component' &&
+            x.contextId === box.dataset.previewComponent
+        );
+
+    box.dataset.count = files.length;
+
+    box.classList.toggle(
+        'is-single',
+        files.length === 1
+    );
+
+    box.classList.toggle(
+        'is-empty',
+        files.length === 0
+    );
+
+    box.innerHTML =
+        files
+            .map(previewHtml)
+            .join('');
+
+});
+  all('[data-preview-mark]')
+    .forEach(box => {
+
+        const files =
+            d.documents.filter(x =>
+                x.context === 'marking' &&
+                x.contextId === box.dataset.previewMark
+            );
+
+        box.dataset.count = files.length;
+
+        box.classList.toggle(
+            'is-single',
+            files.length === 1
+        );
+
+        box.classList.toggle(
+            'is-empty',
+            files.length === 0
+        );
+
+        box.innerHTML =
+            files
+                .map(previewHtml)
+                .join('');
+
+    });
+  all('.remove-doc').forEach(b=>b.onclick=()=>removeDoc(b.dataset.doc))}
 function renderOuterboxConditional(){cavityDimensionsWrap.hidden=d.outerbox.leaflet!=='Oui / Yes';drawerDescriptionWrap.hidden=d.outerbox.drawer!=='Oui / Yes'}
 function removeDoc(id){d.documents=d.documents.filter(x=>x.id!==id);renderPreviews();renderDocuments();dirty()}
 function renderDocuments(){let docs=docFilter==='all'?d.documents:d.documents.filter(x=>x.context===docFilter);const card=x=>`<article class="document-card">${x.type.startsWith('image/')?`<img src="${x.data}" alt="">`:'<div class="file-symbol">📎</div>'}<b>${x.name}</b><small>${contextLabel(x.context)} · ${formatSize(x.size)}</small><button class="remove-doc" data-doc="${x.id}">×</button></article>`;if(docFilter==='all'&&docs.length){const groups=['client','product','component','marking','outerbox','documents'];documentList.innerHTML=groups.map(g=>{let items=docs.filter(x=>x.context===g);return items.length?`<section class="document-group"><h3>${contextLabel(g)}</h3><div class="document-group-grid">${items.map(card).join('')}</div></section>`:''}).join('')}else documentList.innerHTML=docs.length?docs.map(card).join(''):'<div class="hint">Aucun document dans cette catégorie.</div>';all('#documentList .remove-doc').forEach(b=>b.onclick=()=>removeDoc(b.dataset.doc));docCount.textContent=d.documents.length+' fichier'+(d.documents.length>1?'s':'');docWeight.textContent=formatSize(d.documents.reduce((a,x)=>a+(x.size||0),0));let mods=d.documents.map(x=>x.modified).filter(Boolean).sort();docModified.textContent=mods.length?'Dernière modification : '+new Date(mods.at(-1)).toLocaleString(currentLang==='pt'?'pt-PT':currentLang==='en'?'en-GB':'fr-FR'):'Aucune modification'}
