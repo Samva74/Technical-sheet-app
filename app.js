@@ -244,9 +244,14 @@ async function exportPDF(){
             const previousOverflow =
                 panel.style.overflow;
 
-            panel.style.height = 'auto';
-            panel.style.maxHeight = 'none';
-            panel.style.overflow = 'visible';
+            panel.style.height =
+            previousHeight;
+
+            panel.style.maxHeight =
+            previousMaxHeight;
+
+            panel.style.overflow =
+            'hidden';
 
             await waitForPdfImages(panel);
             await waitForPdfLayout();
@@ -259,7 +264,7 @@ async function exportPDF(){
 
             const canvas =
                 await html2canvas(panel, {
-                    scale:2,
+                    scale:3,
                     useCORS:true,
                     allowTaint:true,
                     backgroundColor:'#f2f2ef',
