@@ -298,7 +298,7 @@ async function exportPDF(){
 const pageHeight =
     pdf.internal.pageSize.getHeight();
 
-const margin = 4;
+const margin = 0;
 
 const availableWidth =
     pageWidth - (margin * 2);
@@ -328,8 +328,8 @@ if(!firstPage){
 }
 
 pdf.addImage(
-    canvas.toDataURL('image/jpeg',0.95),
-    'JPEG',
+    canvas.toDataURL('image/jpeg'),
+    'PNG',
     (pageWidth-imageWidth)/2,
     (pageHeight-imageHeight)/2,
     imageWidth,
