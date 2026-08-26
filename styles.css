@@ -934,7 +934,14 @@ body.pdf-exporting textarea{
 
 body.pdf-exporting .component-final,
 body.pdf-exporting .marking-final{
-    height:708px !important;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+body.pdf-exporting .component-thumbs,
+body.pdf-exporting .marking-thumbs{
+    height:auto !important;
+    min-height:0 !important;
 }
 
 body.pdf-exporting .repeat{
@@ -945,6 +952,11 @@ body.pdf-exporting .preview-item img,
 body.pdf-exporting .document-card img{
     object-fit:contain !important;
 }
+
+body.pdf-exporting .preview-item{
+    aspect-ratio:auto !important;
+}
+
 #openBtn{
     background:#191918 !important;
     color:#fff !important;
