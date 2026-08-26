@@ -528,7 +528,7 @@ gap:4px;
 
     .component-final,
     .marking-final{
-        height:155mm !important;
+        height:auto !important;
         min-height:0 !important;
     }
 
