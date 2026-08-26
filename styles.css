@@ -221,9 +221,15 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
     object-fit:contain;
 }*/
 .component-thumbs .preview-item{
-    aspect-ratio:1 / 1;
+    aspect-ratio:auto;
 }
-.marking-thumbs .preview-item img{height:100px}
+.marking-thumbs .preview-item img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+}
+
 .outerbox-final{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);gap:10px}
 .outerbox-left{display:grid;grid-template-rows:auto 1fr;gap:4px}
 .outerbox-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
