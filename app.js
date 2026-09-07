@@ -28,8 +28,6 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
 
     }
 
-});
-
     });
 };
                 addMark.onclick = () => {
