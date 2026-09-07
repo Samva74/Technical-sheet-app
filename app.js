@@ -16,16 +16,19 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
 
     requestAnimationFrame(() => {
 
-        const cards =
-            document.querySelectorAll(
-                '.component-card'
-            );
+    const panel =
+        document.querySelector(
+            '.panel[data-step="markings"]'
+        );
 
-        cards[cards.length - 1]
-            ?.scrollIntoView({
-                behavior:'smooth',
-                block:'start'
-            });
+    if(panel){
+
+        panel.scrollTop =
+            panel.scrollHeight;
+
+    }
+
+});
 
     });
 };
