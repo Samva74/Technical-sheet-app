@@ -94,6 +94,13 @@ next.style.display =
     i===steps.length-1
         ? 'none'
         : 'inline-flex';
+if(i === 0){
+    prev.style.visibility = 'hidden';
+    next.style.marginLeft = 'auto';
+}else{
+    prev.style.visibility = 'visible';
+    next.style.marginLeft = '';
+}
 if(steps[i][0]==='components'&&!d.components.length){d.components.push(newComponent());renderComponents()}if(steps[i][0]==='markings'&&!d.markings.length){d.markings.push(newMarking());renderMarkings()}if(steps[i][0]==='documents')renderDocuments();if(steps[i][0]==='validation')renderSummary();scrollTo({top:0,behavior:'smooth'})}
 function validRef(){return !!(d.client.sourceReference||'').trim()}
 function safeName(){return (d.client.sourceReference||'Technical-Sheet').trim().replace(/[\\/:*?"<>|]+/g,'-')}
