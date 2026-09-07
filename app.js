@@ -65,7 +65,7 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
     });
 
 };
-                clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
+clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
 newBtn.onclick=()=>{
   if(confirm('Créer une nouvelle fiche ?')){
     d=blank();
@@ -82,6 +82,19 @@ adminBtn.onclick=()=>adminDialog.showModal();
 closeAdmin.onclick=()=>adminDialog.close();
 jsonBtn.onclick=()=>download(textBytes(JSON.stringify(d,null,2)),safeName()+'.json','application/json');
 importFile.onchange=importJson;prev.onclick=()=>show(Math.max(0,cur-1));
+enableSeriesBreakdown.checked =
+    d.quantities.useSeriesBreakdown || false;
+
+enableSeriesBreakdown.onchange = () => {
+
+    d.quantities.useSeriesBreakdown =
+        enableSeriesBreakdown.checked;
+
+    renderQuantities();
+
+    dirty();
+
+};
 next.onclick=()=>show(Math.min(steps.length-1,cur+1));all('.lang').forEach(b=>b.onclick=()=>setLanguage(b.dataset.lang));all('.doc-filters button').forEach(b=>b.onclick=()=>{docFilter=b.dataset.filter;all('.doc-filters button').forEach(x=>x.classList.toggle('active',x===b));renderDocuments()});renderAll();show(0)}
 function renderAll(){all('[data-p]').forEach(x=>x.value=get(d,x.dataset.p)??'');renderQuantities();renderComponents();renderMarkings();renderPreviews();renderDocuments();renderOuterboxConditional();renderSummary();validateReference();applyTranslations()}
 function show(i){cur=i;all('.panel').forEach((x,n)=>x.classList.toggle('active',n===i));all('nav button').forEach((x,n)=>x.classList.toggle('active',n===i));bar.style.width=(i+1)/steps.length*100+'%';
