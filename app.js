@@ -38,16 +38,19 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
 
     requestAnimationFrame(() => {
 
-        const cards =
-            document.querySelectorAll(
-                '.marking-card'
+        const lastCard =
+            document.querySelector(
+                '#markings .marking-card:last-child'
             );
 
-        cards[cards.length - 1]
-            ?.scrollIntoView({
+        if(lastCard){
+
+            lastCard.scrollIntoView({
                 behavior:'smooth',
                 block:'start'
             });
+
+        }
 
     });
 
