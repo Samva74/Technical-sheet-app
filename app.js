@@ -29,7 +29,30 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
 
     });
 };
-                addMark.onclick=()=>{d.markings.push(newMarking());renderMarkings();dirty()};clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
+                addMark.onclick = () => {
+
+    d.markings.push(newMarking());
+
+    renderMarkings();
+    dirty();
+
+    requestAnimationFrame(() => {
+
+        const cards =
+            document.querySelectorAll(
+                '.marking-card'
+            );
+
+        cards[cards.length - 1]
+            ?.scrollIntoView({
+                behavior:'smooth',
+                block:'start'
+            });
+
+    });
+
+};
+                clientFiles.onchange=e=>addFiles(e.target.files,'client');productImage.onchange=e=>addFiles(e.target.files,'product');outerboxImages.onchange=e=>addFiles(e.target.files,'outerbox');globalFiles.onchange=e=>addFiles(e.target.files,'documents');outerCavity.onchange=renderOuterboxConditional;outerDrawer.onchange=renderOuterboxConditional;
 newBtn.onclick=()=>{
   if(confirm('Créer une nouvelle fiche ?')){
     d=blank();
