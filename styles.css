@@ -317,7 +317,15 @@ gap:4px;
 
 .quick{background:var(--green);border:1px solid var(--green-line);border-radius:15px;padding:14px;margin-top:14px}
 .pager{grid-row:3;display:flex;justify-content:space-between;margin-top:7px}
-.pager button{min-width:100px}
+.pager button{
+    min-width:120px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+}
 .file-symbol{font-size:32px;text-align:center;padding:12px}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow);min-width:420px}.admin-head{display:flex;justify-content:space-between}.admin-actions{display:grid;gap:10px}.admin-actions input{display:none}@media(max-width:1050px){.layout{grid-template-columns:235px 1fr}.component-final,.marking-final,.outerbox-final{grid-template-columns:1fr}.component-param-grid,.marking-param-grid,.outerbox-param-grid{grid-template-columns:1fr 1fr}.media-align,.client-file-align{margin-top:0}.document-grid,.document-group-grid{grid-template-columns:repeat(3,1fr)}}
 
 @media(max-width:760px){
