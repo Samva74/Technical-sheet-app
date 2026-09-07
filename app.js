@@ -1,12 +1,17 @@
 const steps=[['client','Client & Projet'],['quantities','Quantités'],['product','Produit'],['components','Composants'],['markings','Marquages'],['outerbox','Contre-boîte'],['documents','Documents'],['validation','Validation']];
 const newComponent=()=>({id:crypto.randomUUID(),name:'',type:'',outerMaterial:'',outerRef:'',innerMaterial:'',innerRef:'',finish:'',finishColorRef:'',varnish:'',texture:'',groove:'Non / No',removable:'Non / No',notes:''});
 const newMarking=()=>({id:crypto.randomUUID(),componentId:'',type:'',precision:'',width:'',color:'',colorRef:'',horizontal:'',vertical:'',offsetH:'',offsetV:'',notes:''});
-const blank=()=>({id:crypto.randomUUID(),client:{},quantities:{prototype:{},bat:{},preseries:{},series:{},bands:[{from:0,to:100,price:''},{from:101,to:500,price:''},{from:501,to:1000,price:''},{from:1001,to:5000,price:''}]},product:{},components:[newComponent()],markings:[newMarking()],outerbox:{},documents:[],validation:{status:'Brouillon'}});
+const blank=()=>({id:crypto.randomUUID(),client:{},quantities:{prototype:{},bat:{},preseries:{},series:{},useSeriesBreakdown:false,bands:[{from:0,to:100,price:''},{from:101,to:500,price:''},{from:501,to:1000,price:''},{from:1001,to:5000,price:''}]},product:{},components:[newComponent()],markings:[newMarking()],outerbox:{},documents:[],validation:{status:'Brouillon'}});
 let d=JSON.parse(localStorage.getItem('ftDraftV10')||'null')||blank(),
   cur=0,
   docFilter='all';
   let currentFileHandle = null;
-if(!d.components?.length)d.components=[newComponent()];if(!d.markings?.length)d.markings=[newMarking()];const all=s=>[...document.querySelectorAll(s)],get=(o,p)=>p.split('.').reduce((a,k)=>a?.[k],o),set=(o,p,v)=>{let a=p.split('.'),x=o;a.slice(0,-1).forEach(k=>x=x[k]??={});x[a.at(-1)]=v};
+if(!d.components?.length)d.components=[newComponent()];x
+if(!d.markings?.length)d.markings=[newMarking()];
+if(typeof d.quantities.useSeriesBreakdown !== 'boolean'){
+    d.quantities.useSeriesBreakdown = false;
+}
+const all=s=>[...document.querySelectorAll(s)],get=(o,p)=>p.split('.').reduce((a,k)=>a?.[k],o),set=(o,p,v)=>{let a=p.split('.'),x=o;a.slice(0,-1).forEach(k=>x=x[k]??={});x[a.at(-1)]=v};
 function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(b)show(+b.dataset.i)};all('[data-p]').forEach(x=>x.oninput=()=>{set(d,x.dataset.p,x.value);if(x.id==='sourceRef')validateReference();dirty()});renderQuantities();
                 addComp.onclick=()=>{
     d.components.push(newComponent());
@@ -189,6 +194,12 @@ async function openUser(){
             await file.text();
 
         d = JSON.parse(text);
+      if(typeof d.quantities.useSeriesBreakdown !== 'boolean'){
+    d.quantities.useSeriesBreakdown = false;
+}
+
+enableSeriesBreakdown.checked =
+    d.quantities.useSeriesBreakdown;
 
         if(!d.components?.length)
             d.components=[newComponent()];
@@ -207,15 +218,134 @@ async function openUser(){
 
 }
 function renderQuantities(){
-  const labels=[
- ['prototype',tr('prototype')],
- ['bat',tr('bat')],
- ['preseries',tr('preseries')],
- ['series',tr('series')]
-];
+
+    const labels = [
+        ['prototype',tr('prototype')],
+        ['bat',tr('bat')],
+        ['preseries',tr('preseries')],
+        ['series',tr('series')]
+    ];
+
+    quantityGrid.innerHTML = labels.map(([k,l]) => `
+        <article class="quantity-card">
+
+            <h3>${l}</h3>
+
+            <label>
+                ${tr('quantity')}
+
+                <div class="unit-input">
+                    <input
+                        type="number"
+                        min="0"
+                        data-q="${k}"
+                        data-f="quantity"
+                        value="${d.quantities[k]?.quantity || ''}"
+                    >
+
+                    <span>pces</span>
+                </div>
+            </label>
+
+            <label>
+                ${tr('price')}
+
+                <div class="unit-input">
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        data-q="${k}"
+                        data-f="price"
+                        value="${d.quantities[k]?.price || ''}"
+                    >
+
+                    <span>€</span>
+                </div>
+            </label>
+
+        </article>
+    `).join('');
+
+    priceVent.innerHTML = d.quantities.bands.map((b,i) => `
+        <div class="vent-item">
+
+            <input
+                type="number"
+                data-band="${i}"
+                data-f="from"
+                value="${b.from}"
+            >
+
+            <b>à</b>
+
+            <input
+                type="number"
+                data-band="${i}"
+                data-f="to"
+                value="${b.to}"
+            >
+
+            <div class="unit-input price">
+
+                <input
+                    type="number"
+                    step="0.01"
+                    data-band="${i}"
+                    data-f="price"
+                    value="${b.price || ''}"
+                    placeholder="${tr('price')}"
+                >
+
+                <span>€</span>
+
+            </div>
+
+        </div>
+    `).join('');
+
+    priceVent.hidden =
+        !d.quantities.useSeriesBreakdown;
+
+    const seriesSubtitle =
+        document.querySelector(
+            '[data-i18n="seriesPriceBreakdown"]'
+        );
+
+    if(seriesSubtitle){
+        seriesSubtitle.hidden =
+            !d.quantities.useSeriesBreakdown;
+    }
+
+    all('[data-q]').forEach(x => {
+
+        x.oninput = () => {
+
+            d.quantities[x.dataset.q][x.dataset.f] =
+                x.value;
+
+            dirty();
+        };
+
+    });
+
+    all('[data-band]').forEach(x => {
+
+        x.oninput = () => {
+
+            d.quantities.bands[
+                Number(x.dataset.band)
+            ][x.dataset.f] = x.value;
+
+            dirty();
+        };
+
+    });
+}
   quantityGrid.innerHTML=labels.map(([k,l])=>`<article class="quantity-card"><h3>${l}</h3><label>
   ${tr('quantity')}
-  <div class="unit-input"><input type="number" min="0" data-q="${k}" data-f="quantity" value="${d.quantities[k]?.quantity||''}"><span>pces</span></div></label><label>${tr('price')}<div class="unit-input"><input type="number" min="0" step="0.01" data-q="${k}" data-f="price" value="${d.quantities[k]?.price||''}"><span>€</span></div></label></article>`).join('');priceVent.innerHTML=d.quantities.bands.map((b,i)=>`<div class="vent-item"><input type="number" data-band="${i}" data-f="from" value="${b.from}"><b>à</b><input type="number" data-band="${i}" data-f="to" value="${b.to}"><div class="unit-input price"><input type="number" step="0.01" data-band="${i}" data-f="price" value="${b.price||''}" placeholder="${tr('price')}"><span>€</span></div></div>`).join('');all('[data-q]').forEach(x=>x.oninput=()=>{d.quantities[x.dataset.q][x.dataset.f]=x.value;dirty()});all('[data-band]').forEach(x=>x.oninput=()=>{d.quantities.bands[+x.dataset.band][x.dataset.f]=x.value;dirty()})}
+  <div class="unit-input"><input type="number" min="0" data-q="${k}" data-f="quantity" value="${d.quantities[k]?.quantity||''}"><span>pces</span></div></label><label>${tr('price')}<div class="unit-input"><input type="number" min="0" step="0.01" data-q="${k}" data-f="price" value="${d.quantities[k]?.price||''}"><span>€</span></div></label></article>`).join('');
+  priceVent.innerHTML=d.quantities.bands.map((b,i)=>`<div class="vent-item"><input type="number" data-band="${i}" data-f="from" value="${b.from}"><b>à</b><input type="number" data-band="${i}" data-f="to" value="${b.to}"><div class="unit-input price"><input type="number" step="0.01" data-band="${i}" data-f="price" value="${b.price||''}" placeholder="${tr('price')}"><span>€</span></div></div>`).join('');all('[data-q]').forEach(x=>x.oninput=()=>{d.quantities[x.dataset.q][x.dataset.f]=x.value;dirty()});all('[data-band]').forEach(x=>x.oninput=()=>{d.quantities.bands[+x.dataset.band][x.dataset.f]=x.value;dirty()})}
 function field(l,k,v,t='text',opts=[]){l=trText(l);return `<label>${l}${t==='select'?`<select data-k="${k}"><option></option>${opts.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`:`<input data-k="${k}" type="${t}" value="${String(v??'').replaceAll('"','&quot;')}">`}</label>`}const materials=['Tissus / Fabric','Papier / Paper','Cuir / Leather','Simili cuir / Faux leather','Synthétique / Synthetic','Bois / Wood','Plastique / Plastic','Métal / Metal','Autre / Other'];
 function renderComponents(){components.innerHTML=d.components.map((c,i)=>`<article class="repeat component-card" data-i="${i}"><div class="repeat-head"><h3>${tr('component')} ${i+1}</h3><button class="remove">×</button></div><div class="component-final"><div class="component-left"><div class="component-param-grid"><div class="pair-col">${field(tr('name'),'name',c.name)}${field(tr('outerMaterial'),'outerMaterial',c.outerMaterial,'select',materials)}${field(tr('innerMaterial'),'innerMaterial',c.innerMaterial,'select',materials)}${field(tr('finish'),'finish',c.finish,'select',['Teinte / Shade','Vernis / Varnish','Laque / Lacquer','Brossé / Brushed','Poli / Polished','Autre / Other'])}${field(tr('varnish'),'varnish',c.varnish,'select',['Aucun / None','Extra-mat / Extra-matte','Mat / Matt','Satiné / Satin','Brillant / Gloss'])}${field(tr('groove'),'groove',c.groove,'select',['Oui / Yes','Non / No'])}</div><div class="pair-col">${field(tr('type'),'type',c.type,'select',['Extérieur / Exterior','Intérieur base / Inside base','Intérieur couvercle / Inside lid','Contre-boîte / Outerbox','Cartouche / Inlay','Coussin / Cushion','Ciel / Sky','Autre / Other'])}${field(tr('outerRef'),'outerRef',c.outerRef)}${field(tr('innerRef'),'innerRef',c.innerRef)}${field(tr('finishColor'),'finishColorRef',c.finishColorRef)}${field(tr('texture'),'texture',c.texture)}${field(tr('removable'),'removable',c.removable,'select',['Oui / Yes','Non / No'])}</div></div><label class="component-notes"><span>${tr('notes')}</span><textarea data-k="notes">${c.notes||''}</textarea></label></div><div class="component-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('componentImages')}<input class="component-files" data-component="${c.id}" type="file" accept="image/*" multiple></label><div class="mini-preview component-thumbs" data-preview-component="${c.id}"></div></div></div></article>`).join('');all('#components .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.components[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.components[i].id;d.components.splice(i,1);if(!d.components.length)d.components.push(newComponent());d.markings=d.markings.filter(m=>m.componentId!==id);d.documents=d.documents.filter(x=>x.contextId!==id);renderComponents();renderMarkings();renderDocuments();dirty()}});all('.component-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'component',e.target.dataset.component));
 //renderPreviews();
