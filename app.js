@@ -16,19 +16,24 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
 
     requestAnimationFrame(() => {
 
-    const panel =
+    const lastCard =
         document.querySelector(
-            '.panel[data-step="markings"]'
+            '.component-card:last-child'
         );
 
-    if(panel){
+    if(lastCard){
+
+        const panel =
+            document.querySelector(
+                '.panel[data-step="components"]'
+            );
 
         panel.scrollTop =
-            panel.scrollHeight;
+            lastCard.offsetTop - 20;
 
     }
 
-    });
+});
 };
                 addMark.onclick = () => {
 
@@ -39,17 +44,24 @@ function init(){renderNav();nav.onclick=e=>{let b=e.target.closest('button');if(
 
     requestAnimationFrame(() => {
 
-        const lastCard =
+    const lastCard =
+        document.querySelector(
+            '.marking-card:last-child'
+        );
+
+    if(lastCard){
+
+        const panel =
             document.querySelector(
-                '#markings .marking-card:last-child'
+                '.panel[data-step="markings"]'
             );
 
-        if(lastCard){
+        panel.scrollTop =
+            lastCard.offsetTop - 20;
 
-            lastCard.scrollIntoView({
-                behavior:'smooth',
-                block:'start'
-            });
+    }
+
+});
 
         }
 
