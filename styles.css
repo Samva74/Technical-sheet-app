@@ -728,6 +728,12 @@ gap:4px;
 
     height:100%;
 }
+#priceVent input:disabled{
+    background:#d8d8d8;
+    color:#777;
+    cursor:not-allowed;
+}
+
 /* =========================================================
    GALERIES D'IMAGES ADAPTATIVES
    1 fichier  = toute la zone
