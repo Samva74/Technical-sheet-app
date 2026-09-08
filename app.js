@@ -101,7 +101,22 @@ enableSeriesBreakdown.onchange = () => {
 
 };
 next.onclick=()=>show(Math.min(steps.length-1,cur+1));all('.lang').forEach(b=>b.onclick=()=>setLanguage(b.dataset.lang));all('.doc-filters button').forEach(b=>b.onclick=()=>{docFilter=b.dataset.filter;all('.doc-filters button').forEach(x=>x.classList.toggle('active',x===b));renderDocuments()});renderAll();show(0)}
-function renderAll(){all('[data-p]').forEach(x=>x.value=get(d,x.dataset.p)??'');renderQuantities();renderComponents();renderMarkings();renderPreviews();renderDocuments();renderOuterboxConditional();renderSummary();validateReference();applyTranslations()}
+function renderAll(){
+  all('[data-p]').forEach(
+    x=>x.value=
+      get(d,x.dataset.p)??''
+  );
+  renderQuantities();
+  renderComponents();
+  renderMarkings();
+  renderPreviews();
+  renderDocuments();
+  renderOuterboxConditional();
+  renderSummary();
+  validateReference();
+  applyTranslations();
+setupOtherFields(document);
+}
 function show(i){cur=i;all('.panel').forEach((x,n)=>x.classList.toggle('active',n===i));all('nav button').forEach((x,n)=>x.classList.toggle('active',n===i));bar.style.width=(i+1)/steps.length*100+'%';
 prev.style.display =
     i===0
@@ -355,10 +370,106 @@ priceVent
 }
   
 function field(l,k,v,t='text',opts=[]){l=trText(l);return `<label>${l}${t==='select'?`<select data-k="${k}"><option></option>${opts.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`:`<input data-k="${k}" type="${t}" value="${String(v??'').replaceAll('"','&quot;')}">`}</label>`}const materials=['Tissus / Fabric','Papier / Paper','Cuir / Leather','Simili cuir / Faux leather','Synthétique / Synthetic','Bois / Wood','Plastique / Plastic','Métal / Metal','Autre / Other'];
+function setupOtherFields(container){
+
+    container.querySelectorAll('select').forEach(select => {
+
+        const otherOption = [...select.options].find(
+            option => option.textContent === 'Autre / Other'
+        );
+
+        if(!otherOption) return;
+
+        let otherInput =
+            select.parentElement.querySelector(
+                '.other-custom-input'
+            );
+
+        if(!otherInput){
+
+            otherInput =
+                document.createElement('input');
+
+            otherInput.type = 'text';
+            otherInput.placeholder = 'Précisez...';
+            otherInput.className =
+                'other-custom-input';
+
+            otherInput.style.display = 'none';
+
+            select.parentElement.appendChild(
+                otherInput
+            );
+        }
+
+        const currentValue = select.value;
+
+        const standardValues =
+            [...select.options]
+            .map(option => option.textContent);
+
+        if(
+            currentValue &&
+            !standardValues.includes(currentValue)
+        ){
+
+            otherInput.style.display = 'block';
+            otherInput.value = currentValue;
+
+            otherOption.textContent = currentValue;
+            otherOption.value = currentValue;
+        }
+
+        select.addEventListener('change', () => {
+
+            if(
+                select.value === 'Autre / Other'
+            ){
+
+                otherInput.style.display =
+                    'block';
+
+                otherInput.focus();
+
+            }else{
+
+                otherInput.style.display =
+                    'none';
+            }
+        });
+
+        otherInput.addEventListener(
+            'input',
+            () => {
+
+                const value =
+                    otherInput.value.trim();
+
+                if(!value) return;
+
+                otherOption.textContent =
+                    value;
+
+                otherOption.value =
+                    value;
+
+                select.value =
+                    value;
+
+                select.dispatchEvent(
+                    new Event('input')
+                );
+            }
+        );
+    });
+}
 function renderComponents(){components.innerHTML=d.components.map((c,i)=>`<article class="repeat component-card" data-i="${i}"><div class="repeat-head"><h3>${tr('component')} ${i+1}</h3><button class="remove">×</button></div><div class="component-final"><div class="component-left"><div class="component-param-grid"><div class="pair-col">${field(tr('name'),'name',c.name)}${field(tr('outerMaterial'),'outerMaterial',c.outerMaterial,'select',materials)}${field(tr('innerMaterial'),'innerMaterial',c.innerMaterial,'select',materials)}${field(tr('finish'),'finish',c.finish,'select',['Teinte / Shade','Vernis / Varnish','Laque / Lacquer','Brossé / Brushed','Poli / Polished','Autre / Other'])}${field(tr('varnish'),'varnish',c.varnish,'select',['Aucun / None','Extra-mat / Extra-matte','Mat / Matt','Satiné / Satin','Brillant / Gloss'])}${field(tr('groove'),'groove',c.groove,'select',['Oui / Yes','Non / No'])}</div><div class="pair-col">${field(tr('type'),'type',c.type,'select',['Extérieur / Exterior','Intérieur base / Inside base','Intérieur couvercle / Inside lid','Contre-boîte / Outerbox','Cartouche / Inlay','Coussin / Cushion','Ciel / Sky','Autre / Other'])}${field(tr('outerRef'),'outerRef',c.outerRef)}${field(tr('innerRef'),'innerRef',c.innerRef)}${field(tr('finishColor'),'finishColorRef',c.finishColorRef)}${field(tr('texture'),'texture',c.texture)}${field(tr('removable'),'removable',c.removable,'select',['Oui / Yes','Non / No'])}</div></div><label class="component-notes"><span>${tr('notes')}</span><textarea data-k="notes">${c.notes||''}</textarea></label></div><div class="component-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('componentImages')}<input class="component-files" data-component="${c.id}" type="file" accept="image/*" multiple></label><div class="mini-preview component-thumbs" data-preview-component="${c.id}"></div></div></div></article>`).join('');all('#components .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.components[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.components[i].id;d.components.splice(i,1);if(!d.components.length)d.components.push(newComponent());d.markings=d.markings.filter(m=>m.componentId!==id);d.documents=d.documents.filter(x=>x.contextId!==id);renderComponents();renderMarkings();renderDocuments();dirty()}});all('.component-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'component',e.target.dataset.component));
 //renderPreviews();
-applyTranslations();}
-function renderMarkings(){markings.innerHTML=d.markings.map((m,i)=>`<article class="repeat marking-card" data-i="${i}"><div class="repeat-head"><h3>${tr('marking')} ${i+1}</h3><button class="remove">×</button></div><div class="marking-final"><div class="marking-left"><div class="marking-param-grid"><div class="pair-col"><label>${tr('component')}<select data-k="componentId"><option></option>${d.components.map(c=>`<option value="${c.id}" ${c.id===m.componentId?'selected':''}>${c.name||c.type||tr('component')}</option>`).join('')}</select></label>${field(tr('precision'),'precision',m.precision)}${field(tr('color'),'color',m.color,'select',['Or jaune / Yellow gold','Or blanc / White gold','Or rose / Pink gold','Pantone','RAL','NCS','Autre / Other'])}${field(tr('horizontal'),'horizontal',m.horizontal,'select',['Centré / Centred','Depuis la gauche / From left','Depuis la droite / From right'])}${field(tr('horizontalOffset'),'offsetH',m.offsetH,'number')}</div><div class="pair-col">${field(tr('type'),'type',m.type,'select',['Marquage à chaud / Hot stamping','Sticker métal / Metal sticker','Impression UV / UV printing','Autre / Other'])}${field(tr('width'),'width',m.width,'number')}${field(tr('colorRef'),'colorRef',m.colorRef)}${field(tr('vertical'),'vertical',m.vertical,'select',['Centré / Centred','Depuis le bas / From bottom','Depuis le haut / From top'])}${field(tr('verticalOffset'),'offsetV',m.offsetV,'number')}</div></div><label class="marking-notes"><span>${tr('notes')}</span><textarea data-k="notes">${m.notes||''}</textarea></label></div><div class="marking-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('selectFiles')}<input class="mark-files" data-mark="${m.id}" type="file" multiple></label><div class="mini-preview marking-thumbs" data-preview-mark="${m.id}"></div></div></div></article>`).join('');all('#markings .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.markings[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.markings[i].id;d.markings.splice(i,1);if(!d.markings.length)d.markings.push(newMarking());d.documents=d.documents.filter(x=>x.contextId!==id);renderMarkings();renderDocuments();dirty()}});all('.mark-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'marking',e.target.dataset.mark));applyTranslations();}
+applyTranslations();
+setupOtherFields(components);}
+function renderMarkings(){markings.innerHTML=d.markings.map((m,i)=>`<article class="repeat marking-card" data-i="${i}"><div class="repeat-head"><h3>${tr('marking')} ${i+1}</h3><button class="remove">×</button></div><div class="marking-final"><div class="marking-left"><div class="marking-param-grid"><div class="pair-col"><label>${tr('component')}<select data-k="componentId"><option></option>${d.components.map(c=>`<option value="${c.id}" ${c.id===m.componentId?'selected':''}>${c.name||c.type||tr('component')}</option>`).join('')}</select></label>${field(tr('precision'),'precision',m.precision)}${field(tr('color'),'color',m.color,'select',['Or jaune / Yellow gold','Or blanc / White gold','Or rose / Pink gold','Pantone','RAL','NCS','Autre / Other'])}${field(tr('horizontal'),'horizontal',m.horizontal,'select',['Centré / Centred','Depuis la gauche / From left','Depuis la droite / From right'])}${field(tr('horizontalOffset'),'offsetH',m.offsetH,'number')}</div><div class="pair-col">${field(tr('type'),'type',m.type,'select',['Marquage à chaud / Hot stamping','Sticker métal / Metal sticker','Impression UV / UV printing','Autre / Other'])}${field(tr('width'),'width',m.width,'number')}${field(tr('colorRef'),'colorRef',m.colorRef)}${field(tr('vertical'),'vertical',m.vertical,'select',['Centré / Centred','Depuis le bas / From bottom','Depuis le haut / From top'])}${field(tr('verticalOffset'),'offsetV',m.offsetV,'number')}</div></div><label class="marking-notes"><span>${tr('notes')}</span><textarea data-k="notes">${m.notes||''}</textarea></label></div><div class="marking-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('selectFiles')}<input class="mark-files" data-mark="${m.id}" type="file" multiple></label><div class="mini-preview marking-thumbs" data-preview-mark="${m.id}"></div></div></div></article>`).join('');all('#markings .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.markings[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.markings[i].id;d.markings.splice(i,1);if(!d.markings.length)d.markings.push(newMarking());d.documents=d.documents.filter(x=>x.contextId!==id);renderMarkings();renderDocuments();dirty()}});all('.mark-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'marking',e.target.dataset.mark));
+applyTranslations();
+setupOtherFields(markings);}
 async function addFiles(files,context,contextId,single=false){if(single)d.documents=d.documents.filter(x=>x.context!=='product');for(const f of files){let data=await fileToBase64(f);d.documents.push({id:crypto.randomUUID(),name:f.name,size:f.size,type:f.type||'application/octet-stream',context,contextId,data,modified:new Date().toISOString()});}renderPreviews();renderDocuments();dirty();}
 function fileToBase64(f){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}
 function previewHtml(doc){let image=doc.type.startsWith('image/')?`<img src="${doc.data}" alt="">`:'<div class="file-symbol">📎</div>';return `<div class="preview-item">${image}<small>${doc.name}</small><button class="remove-doc" data-doc="${doc.id}">×</button></div>`}
