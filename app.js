@@ -445,14 +445,33 @@ function setupOtherFields(container){
 
     if(!value) return;
 
-    otherOption.textContent =
-        value;
+    let customOption =
+    [...select.options].find(
+        option =>
+            option.dataset.custom === 'true'
+    );
 
-    otherOption.value =
-        value;
+if(!customOption){
 
-    select.value =
-        value;
+    customOption =
+        document.createElement('option');
+
+    customOption.dataset.custom =
+        'true';
+
+    select.appendChild(
+        customOption
+    );
+}
+
+customOption.textContent =
+    value;
+
+customOption.value =
+    value;
+
+select.value =
+    value;
 
     otherInput.style.display =
         'none';
