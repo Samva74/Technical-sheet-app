@@ -219,12 +219,12 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
     object-position:center;
 }
 .product-thumbs{
-    min-height:250px;
-    height:auto;
+    min-height:0;
+    height:100%;
     margin-top:30px;
 
     display:grid;
-    align-content:start;
+    align-content:stretch;
 }
 .product-description-label{
     height:100%;
@@ -1162,8 +1162,8 @@ body.pdf-exporting .preview-item{
     }
 
     .product-description{
-        height:220px !important;
-        min-height:220px !important;
+        height:auto !important;
+        min-height:250px !important;
     }
 
     .component-thumbs,
@@ -1239,15 +1239,4 @@ body.pdf-exporting .preview-item{
     }
 
 }
-@supports (-webkit-touch-callout:none){
 
-    .panel{
-        height:auto !important;
-        overflow:visible !important;
-    }
-
-    .panel.active{
-        height:auto !important;
-    }
-
-}
