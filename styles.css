@@ -247,8 +247,8 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
       min-height:689px}
 .component-left,.marking-left{display:grid;grid-template-rows:auto auto;gap:10px}
 .component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;height:270px}
-.component-notes,.marking-notes{height:260px;align-self:stretch}
-.component-notes textarea,.marking-notes textarea{height:313px}
+.component-notes,.marking-notes{height:120px;align-self:stretch}
+.component-notes textarea,.marking-notes textarea{height:241px}
 .component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}
 .media-align{margin-top:-2px}
 .component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
