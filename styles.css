@@ -1006,22 +1006,30 @@ gap:4px;
 
 /* Zone images de 03 Produit */
 
+.product-thumbs,
+.component-thumbs,
+.marking-thumbs,
+.outerbox-thumbs,
+#clientPreview{
+    min-height:300px;
+    height:auto;
+}
 
-/* Zone images de 04 Composants */
+/* Zone images de 04 Composants 
 .component-thumbs{
     min-height:500px;
     height:640px;
     margin-top: 22px;  
 }
 
-/* Zone images de 05 Marquages */
+/* Zone images de 05 Marquages 
 .marking-thumbs{
     min-height:0;
     height:640px;
     margin-top: 22px;
 }
 
-/* Zone images de 06 Contre-boîte */
+/* Zone images de 06 Contre-boîte 
 .outerbox-thumbs{
     min-height:0;
     height:720px;
@@ -1329,4 +1337,84 @@ body.pdf-exporting .preview-item{
         height:auto !important;
         overflow:visible !important;
     }
+}
+/* =========================================================
+   GALERIES UNIFIÉES (01 / 03 / 04 / 05 / 06)
+   ========================================================= */
+
+#clientPreview,
+.product-thumbs,
+.component-thumbs,
+.marking-thumbs,
+.outerbox-thumbs{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    gap:6px;
+
+    overflow:hidden;
+
+    align-items:stretch;
+    align-content:stretch;
+}
+
+/* Vignettes identiques partout */
+
+#clientPreview .preview-item,
+.product-thumbs .preview-item,
+.component-thumbs .preview-item,
+.marking-thumbs .preview-item,
+.outerbox-thumbs .preview-item{
+
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    min-width:0;
+    min-height:0;
+
+    padding:5px;
+
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+
+    background:#fff;
+
+    border:1px solid var(--line);
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+/* Images */
+
+#clientPreview .preview-item img,
+.product-thumbs .preview-item img,
+.component-thumbs .preview-item img,
+.marking-thumbs .preview-item img,
+.outerbox-thumbs .preview-item img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+    object-position:center;
+}
+
+/* Noms des fichiers */
+
+#clientPreview .preview-item small,
+.product-thumbs .preview-item small,
+.component-thumbs .preview-item small,
+.marking-thumbs .preview-item small,
+.outerbox-thumbs .preview-item small{
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+    font-size:10px;
 }
