@@ -342,7 +342,17 @@ gap:4px;
     display:flex;
     align-items:center;
     gap:10px;
-    margin:15px 0 10px 0;
+
+    font-size:18px;
+    font-weight:800;
+
+    margin:15px 0 10px;
+}
+
+.series-toggle input{
+    width:22px;
+    height:22px;
+    min-height:auto;
 }
 
 .custom-checkbox{
