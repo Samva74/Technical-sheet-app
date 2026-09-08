@@ -244,7 +244,7 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
       display:grid;
       grid-template-columns:minmax(0,44%) minmax(0,56%);
       gap:10px;
-      min-height:692px}
+      min-height:689px}
 .component-left,.marking-left{display:grid;grid-template-rows:auto auto;gap:10px}
 .component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;height:270px}
 .component-notes,.marking-notes{height:260px;align-self:stretch}
