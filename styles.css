@@ -401,11 +401,6 @@ gap:4px;
     font-size:15px;
 }
 
-
-.series-toggle input{
-    width:18px;
-    height:18px;
-}
 @media(max-width:760px){
 
     header{
@@ -1113,4 +1108,99 @@ body.pdf-exporting .preview-item{
     background:#f4f4f4 !important;
     color:#111 !important;
     border:1px solid #999 !important;
+}
+/* =========================================================
+   IPHONE / SAFARI
+   ========================================================= */
+
+@media screen and (max-width:760px){
+
+    .panel{
+        height:auto !important;
+        min-height:auto !important;
+        overflow:visible !important;
+    }
+
+    .panel.active{
+        height:auto !important;
+    }
+
+    .component-final,
+    .marking-final,
+    .outerbox-final{
+        min-height:auto !important;
+        height:auto !important;
+    }
+
+    .component-thumbs,
+    .marking-thumbs,
+    .outerbox-thumbs,
+    #clientPreview{
+        height:auto !important;
+        min-height:250px !important;
+    }
+
+    .panel[data-step="client"] .files-col{
+        height:auto !important;
+    }
+
+    .product-description{
+        height:auto !important;
+        min-height:250px !important;
+    }
+
+    .series-toggle{
+        font-size:16px;
+    }
+
+    select,
+    input,
+    textarea{
+        font-size:16px !important;
+    }
+
+    .file-button,
+    .pager button,
+    .remove,
+    .title-row button{
+        min-height:44px;
+        touch-action:manipulation;
+    }
+
+}
+@supports (-webkit-touch-callout:none){
+
+    .panel{
+        height:auto;
+        min-height:auto;
+    }
+
+    .panel.active{
+        height:auto;
+        min-height:auto;
+    }
+
+    .component-thumbs,
+    .marking-thumbs,
+    .outerbox-thumbs,
+    #clientPreview{
+        height:auto;
+        min-height:240px;
+    }
+
+    .panel[data-step="client"] .files-col{
+        height:auto;
+    }
+
+    .product-description{
+        height:auto;
+        min-height:250px;
+    }
+
+    .component-final,
+    .marking-final,
+    .outerbox-final{
+        min-height:auto;
+    }
+
 }
