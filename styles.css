@@ -80,7 +80,7 @@ nav button.active{background:var(--black);color:#fff}
 
 .panel.active{
     display:block;
-    height:calc(100vh - 144px);
+    height:calc(100vh - 140px);
 }
 .panel h2{font-size:18px;margin:0 0 10px}
 .title-row{
@@ -232,7 +232,7 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
 }
 .product-description-label span{
     position:relative;
-    top:8px;
+    top:0px;
 }
 .product-description{
     height:520px;
@@ -244,11 +244,11 @@ textarea{resize:vertical}.form-three{display:grid;grid-template-columns:22% 22% 
       display:grid;
       grid-template-columns:minmax(0,44%) minmax(0,56%);
       gap:10px;
-      min-height:708px}
+      min-height:692px}
 .component-left,.marking-left{display:grid;grid-template-rows:auto auto;gap:10px}
 .component-param-grid,.marking-param-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;height:270px}
-.component-notes,.marking-notes{height:145px;align-self:stretch}
-.component-notes textarea,.marking-notes textarea{height:265px}
+.component-notes,.marking-notes{height:260px;align-self:stretch}
+.component-notes textarea,.marking-notes textarea{height:313px}
 .component-media,.marking-media{display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}
 .media-align{margin-top:-2px}
 .component-thumbs,.marking-thumbs{align-content:start;grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -766,7 +766,7 @@ gap:4px;
 }
 
 .panel[data-step="quantities"] .quantity-notes{
-    margin-top:20px;
+    margin-top:19px;
 }
 
 .panel[data-step="quantities"] .quantity-notes textarea{
