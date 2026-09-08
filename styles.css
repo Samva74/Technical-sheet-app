@@ -476,6 +476,15 @@ gap:4px;
     .price-vent{
         grid-template-columns:1fr;
     }
+          .quantity-card,
+    .vent-item{
+        width:100%;
+    }
+
+    .series-toggle{
+        font-size:16px;
+        flex-wrap:wrap;
+    }
 
     #clientPreview{
         display:grid;
@@ -1125,11 +1134,36 @@ body.pdf-exporting .preview-item{
         height:auto !important;
     }
 
-    .component-final,
+        .component-final,
     .marking-final,
     .outerbox-final{
-        min-height:auto !important;
+        min-height:0 !important;
         height:auto !important;
+    }
+
+    .component-param-grid,
+    .marking-param-grid,
+    .outerbox-param-grid{
+        height:auto !important;
+    }
+
+    .component-notes textarea,
+    .marking-notes textarea,
+    .outerbox-notes textarea{
+        height:150px !important;
+        min-height:150px !important;
+    }
+
+    .component-thumbs,
+    .marking-thumbs,
+    .outerbox-thumbs{
+        height:auto !important;
+        min-height:220px !important;
+    }
+
+    .product-description{
+        height:220px !important;
+        min-height:220px !important;
     }
 
     .component-thumbs,
@@ -1201,6 +1235,18 @@ body.pdf-exporting .preview-item{
     .marking-final,
     .outerbox-final{
         min-height:auto;
+    }
+
+}
+@supports (-webkit-touch-callout:none){
+
+    .panel{
+        height:auto !important;
+        overflow:visible !important;
+    }
+
+    .panel.active{
+        height:auto !important;
     }
 
 }
