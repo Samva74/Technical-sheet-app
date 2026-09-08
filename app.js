@@ -304,8 +304,19 @@ function renderQuantities(){
         </div>
     `).join('');
 
-    priceVent.hidden =
-        !d.quantities.useSeriesBreakdown;
+    const disabled =
+    !d.quantities.useSeriesBreakdown;
+
+priceVent.style.opacity =
+    disabled ? '0.45' : '1';
+
+priceVent
+    .querySelectorAll('input')
+    .forEach(input => {
+
+        input.disabled = disabled;
+
+    });
 
     const seriesSubtitle =
         document.querySelector(
