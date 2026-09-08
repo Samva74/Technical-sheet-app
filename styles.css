@@ -770,7 +770,7 @@ gap:4px;
 }
 
 .panel[data-step="quantities"] .quantity-notes textarea{
-    min-height:400px;
+    min-height:377px;
     resize:vertical;
 }
 
