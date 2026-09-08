@@ -1119,71 +1119,133 @@ body.pdf-exporting .preview-item{
     border:1px solid #999 !important;
 }
 /* =========================================================
-   IPHONE / SAFARI
+   IPHONE / MOBILE
    ========================================================= */
 
 @media screen and (max-width:760px){
 
-    .panel{
+    body{
+        overflow-x:hidden;
+    }
+
+    header{
+        padding:10px;
+    }
+
+    .brand h1{
+        font-size:18px;
+    }
+
+    .panel,
+    .panel.active{
         height:auto !important;
         min-height:auto !important;
         overflow:visible !important;
     }
 
-    .panel.active{
-        height:auto !important;
+    .title-row{
+        position:sticky;
+        top:0;
+        padding:6px 0;
     }
 
-        .component-final,
+    .title-row h2{
+        font-size:17px;
+    }
+
+    .title-row button{
+        width:44px;
+        height:44px;
+    }
+
+    .product-intro,
+    .component-final,
     .marking-final,
-    .outerbox-final{
-        min-height:0 !important;
-        height:auto !important;
-    }
-
+    .outerbox-final,
     .component-param-grid,
     .marking-param-grid,
     .outerbox-param-grid{
+        display:grid;
+        grid-template-columns:1fr !important;
+        gap:10px;
+    }
+
+    .product-description{
         height:auto !important;
+        min-height:180px !important;
+    }
+
+    .brief-client textarea{
+        min-height:180px !important;
+        max-height:none !important;
     }
 
     .component-notes textarea,
     .marking-notes textarea,
     .outerbox-notes textarea{
-        height:150px !important;
-        min-height:150px !important;
+        height:180px !important;
+        min-height:180px !important;
     }
 
-    .component-thumbs,
-    .marking-thumbs,
-    .outerbox-thumbs{
-        height:auto !important;
-        min-height:220px !important;
-    }
-
-    .product-description{
-        height:auto !important;
-        min-height:250px !important;
-    }
-
+    .files-col,
     .component-thumbs,
     .marking-thumbs,
     .outerbox-thumbs,
     #clientPreview{
         height:auto !important;
-        min-height:250px !important;
+        min-height:180px !important;
     }
 
     .panel[data-step="client"] .files-col{
-        height:auto !important;
+        overflow:visible !important;
     }
 
-    .product-description{
-        height:auto !important;
-        min-height:250px !important;
+    .quantity-grid,
+    .price-vent{
+        grid-template-columns:1fr !important;
+    }
+
+    .document-grid,
+    .document-group-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .mini-preview{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        grid-auto-rows:140px;
+    }
+
+    .preview-item{
+        aspect-ratio:1/1;
+    }
+
+    .preview-item img{
+        width:100%;
+        height:100%;
+        object-fit:contain;
+    }
+
+    input,
+    select,
+    textarea{
+        font-size:16px !important;
+    }
+
+    .file-button,
+    .pager button,
+    .remove,
+    .title-row button{
+        min-height:44px;
+    }
+
+    .product-thumbs,
+    .component-thumbs,
+    .marking-thumbs,
+    .outerbox-thumbs,
+    #clientPreview{
+        margin-top:10px !important;
     }
 }
-
     .series-toggle{
         font-size:16px;
     }
@@ -1239,4 +1301,32 @@ body.pdf-exporting .preview-item{
     }
 
 }
+/* Fix Safari iPhone */
 
+@supports (-webkit-touch-callout:none){
+
+    .panel{
+        height:auto !important;
+        overflow:visible !important;
+    }
+
+    .panel.active{
+        height:auto !important;
+    }
+
+    .layout{
+        display:block !important;
+    }
+
+    .side{
+        min-height:auto !important;
+    }
+
+    .files-col,
+    .component-thumbs,
+    .marking-thumbs,
+    .outerbox-thumbs{
+        height:auto !important;
+        overflow:visible !important;
+    }
+}
