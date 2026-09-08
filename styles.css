@@ -1349,7 +1349,7 @@ body.pdf-exporting .preview-item{
 .outerbox-thumbs{
 
     width:100%;
-    height:87%;
+    height:480px;
 
     display:grid;
     gap:6px;
