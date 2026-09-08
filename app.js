@@ -438,29 +438,49 @@ function setupOtherFields(container){
             }
         });
 
-        otherInput.addEventListener(
-            'input',
-            () => {
+        function validateOtherValue(){
 
-                const value =
-                    otherInput.value.trim();
+    const value =
+        otherInput.value.trim();
 
-                if(!value) return;
+    if(!value) return;
 
-                otherOption.textContent =
-                    value;
+    otherOption.textContent =
+        value;
 
-                otherOption.value =
-                    value;
+    otherOption.value =
+        value;
 
-                select.value =
-                    value;
+    select.value =
+        value;
 
-                select.dispatchEvent(
-                    new Event('input')
-                );
-            }
-        );
+    otherInput.style.display =
+        'none';
+
+    select.dispatchEvent(
+        new Event('input')
+    );
+}
+
+otherInput.addEventListener(
+    'blur',
+    validateOtherValue
+);
+
+otherInput.addEventListener(
+    'keydown',
+    e => {
+
+        if(e.key === 'Enter'){
+
+            e.preventDefault();
+
+            validateOtherValue();
+
+        }
+
+    }
+);
     });
 }
 function renderComponents(){components.innerHTML=d.components.map((c,i)=>`<article class="repeat component-card" data-i="${i}"><div class="repeat-head"><h3>${tr('component')} ${i+1}</h3><button class="remove">×</button></div><div class="component-final"><div class="component-left"><div class="component-param-grid"><div class="pair-col">${field(tr('name'),'name',c.name)}${field(tr('outerMaterial'),'outerMaterial',c.outerMaterial,'select',materials)}${field(tr('innerMaterial'),'innerMaterial',c.innerMaterial,'select',materials)}${field(tr('finish'),'finish',c.finish,'select',['Teinte / Shade','Vernis / Varnish','Laque / Lacquer','Brossé / Brushed','Poli / Polished','Autre / Other'])}${field(tr('varnish'),'varnish',c.varnish,'select',['Aucun / None','Extra-mat / Extra-matte','Mat / Matt','Satiné / Satin','Brillant / Gloss'])}${field(tr('groove'),'groove',c.groove,'select',['Oui / Yes','Non / No'])}</div><div class="pair-col">${field(tr('type'),'type',c.type,'select',['Extérieur / Exterior','Intérieur base / Inside base','Intérieur couvercle / Inside lid','Contre-boîte / Outerbox','Cartouche / Inlay','Coussin / Cushion','Ciel / Sky','Autre / Other'])}${field(tr('outerRef'),'outerRef',c.outerRef)}${field(tr('innerRef'),'innerRef',c.innerRef)}${field(tr('finishColor'),'finishColorRef',c.finishColorRef)}${field(tr('texture'),'texture',c.texture)}${field(tr('removable'),'removable',c.removable,'select',['Oui / Yes','Non / No'])}</div></div><label class="component-notes"><span>${tr('notes')}</span><textarea data-k="notes">${c.notes||''}</textarea></label></div><div class="component-media"><label class="file-button media-align"><span class="clip-icon">📎</span>${tr('componentImages')}<input class="component-files" data-component="${c.id}" type="file" accept="image/*" multiple></label><div class="mini-preview component-thumbs" data-preview-component="${c.id}"></div></div></div></article>`).join('');all('#components .repeat').forEach(card=>{let i=+card.dataset.i;card.oninput=e=>{if(e.target.dataset.k){d.components[i][e.target.dataset.k]=e.target.value;dirty()}};card.querySelector('.remove').onclick=()=>{let id=d.components[i].id;d.components.splice(i,1);if(!d.components.length)d.components.push(newComponent());d.markings=d.markings.filter(m=>m.componentId!==id);d.documents=d.documents.filter(x=>x.contextId!==id);renderComponents();renderMarkings();renderDocuments();dirty()}});all('.component-files').forEach(x=>x.onchange=e=>addFiles(e.target.files,'component',e.target.dataset.component));
